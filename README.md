@@ -1,3 +1,7 @@
+# Overview
+This is my partners and I SENG201 major project. It is a resource management game, with the player playing a number of rounds    
+and filling up carts.
+
 # SENG201 Template Project Overview
 Welcome to the template project for SENG201 which you will transform into your own.
 This README file includes some useful information to help you get started.
@@ -13,6 +17,8 @@ IntelliJ can help with this using `ctrl+shift+f` to find all instances of a stri
 
 ## Authors
 - SENG201 Teaching team
+- Isaac Macdonald
+- Alex Wilson
 
 ## Prerequisites
 - JDK >= 17 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
