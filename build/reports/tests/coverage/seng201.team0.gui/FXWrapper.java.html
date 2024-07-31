@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FXWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.gui</a> &gt; <span class="el_source">FXWrapper.java</span></div><h1>FXWrapper.java</h1><pre class="source lang-java linenums">package seng201.team0.gui;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import seng201.team0.GameEnvironment;
+
+import java.io.IOException;
+
+/**
+ * The FXWrapper class, handles the launching of windows.
+ */
+<span class="nc" id="L16">public class FXWrapper {</span>
+
+    @FXML
+    private Pane pane;
+
+    private Stage stage;
+
+    /**
+     * Initialises the stage and the game environment.
+     * @param stage the stage that the app is launched from.
+     */
+    public void init(Stage stage) {
+<span class="nc" id="L28">        this.stage = stage;</span>
+<span class="nc" id="L29">        new GameEnvironment(this::launchSetupScreen, this::launchMainScreen, this:: launchShopScreen, this:: launchInventoryScreen, this:: launchSelectionScreen, this::clearPane);</span>
+<span class="nc" id="L30">    }</span>
+
+    /**
+     * The launcher for the setup screen.
+     * @param gameEnvironment the game environment that is launched with it.
+     */
+    public void launchSetupScreen(GameEnvironment gameEnvironment) {
+        try {
+<span class="nc" id="L38">            FXMLLoader setupLoader = new FXMLLoader(getClass().getResource(&quot;/fxml/setup.fxml&quot;));</span>
+            // provide a custom Controller with parameters
+<span class="nc" id="L40">            setupLoader.setControllerFactory(param -&gt; new SetupController(gameEnvironment));</span>
+<span class="nc" id="L41">            Parent setupParent  = setupLoader.load();</span>
+<span class="nc" id="L42">            pane.getChildren().add(setupParent);</span>
+<span class="nc" id="L43">            stage.setTitle(&quot;Blood Sweat Tears setup&quot;);</span>
+<span class="nc" id="L44">            stage.setHeight(425);</span>
+<span class="nc" id="L45">            stage.setWidth(600);</span>
+<span class="nc" id="L46">        } catch (IOException e) {</span>
+<span class="nc" id="L47">            e.printStackTrace();</span>
+<span class="nc" id="L48">        }</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Clears the pane to launch a new screen.
+     */
+    public void clearPane() {
+<span class="nc" id="L55">        pane.getChildren().removeAll(pane.getChildren());</span>
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * The launcher for the main screen.
+     * @param gameEnvironment the game environment that is launched with it.
+     */
+    public void launchMainScreen(GameEnvironment gameEnvironment) {
+        try {
+<span class="nc" id="L64">            FXMLLoader mainScreenLoader = new FXMLLoader(getClass().getResource(&quot;/fxml/main.fxml&quot;));</span>
+<span class="nc" id="L65">            mainScreenLoader.setControllerFactory(param -&gt; new MainController(gameEnvironment));</span>
+<span class="nc" id="L66">            Parent setupParent  = mainScreenLoader.load();</span>
+<span class="nc" id="L67">            pane.getChildren().add(setupParent);</span>
+<span class="nc" id="L68">            stage.setTitle(&quot;Blood Sweat Tears Main Screen&quot;);</span>
+<span class="nc" id="L69">            stage.setHeight(600);</span>
+<span class="nc" id="L70">            stage.setWidth(800);</span>
+<span class="nc" id="L71">        } catch (IOException e) {</span>
+<span class="nc" id="L72">            e.printStackTrace();</span>
+<span class="nc" id="L73">        }</span>
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * The launcher for the shop screen.
+     * @param gameEnvironment the game environment that is launched with it.
+     */
+    public void launchShopScreen(GameEnvironment gameEnvironment) {
+        try {
+<span class="nc" id="L82">            FXMLLoader shopScreenLoader = new FXMLLoader(getClass().getResource(&quot;/fxml/shop.fxml&quot;));</span>
+<span class="nc" id="L83">            shopScreenLoader.setControllerFactory(param -&gt; new ShopController(gameEnvironment));</span>
+<span class="nc" id="L84">            Parent setupParent  = shopScreenLoader.load();</span>
+<span class="nc" id="L85">            pane.getChildren().add(setupParent);</span>
+<span class="nc" id="L86">            stage.setTitle(&quot;Blood Sweat Tears Shop Screen&quot;);</span>
+<span class="nc" id="L87">            stage.setHeight(425);</span>
+<span class="nc" id="L88">            stage.setWidth(600);</span>
+<span class="nc" id="L89">        } catch (IOException e) {</span>
+<span class="nc" id="L90">            e.printStackTrace();</span>
+<span class="nc" id="L91">        }</span>
+<span class="nc" id="L92">    }</span>
+
+    /**
+     * The launcher for the inventory screen.
+     * @param gameEnvironment the game environment that is launched with it.
+     */
+    public void launchInventoryScreen(GameEnvironment gameEnvironment) {
+        try {
+<span class="nc" id="L100">            FXMLLoader inventoryScreenLoader = new FXMLLoader(getClass().getResource(&quot;/fxml/inventory.fxml&quot;));</span>
+<span class="nc" id="L101">            inventoryScreenLoader.setControllerFactory(param -&gt; new InventoryController(gameEnvironment));</span>
+<span class="nc" id="L102">            Parent setupParent  = inventoryScreenLoader.load();</span>
+<span class="nc" id="L103">            pane.getChildren().add(setupParent);</span>
+<span class="nc" id="L104">            stage.setTitle(&quot;Blood Sweat Tears Inventory Screen&quot;);</span>
+<span class="nc" id="L105">            stage.setHeight(425);</span>
+<span class="nc" id="L106">            stage.setWidth(600);</span>
+<span class="nc" id="L107">        } catch (IOException e) {</span>
+<span class="nc" id="L108">            e.printStackTrace();</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">    }</span>
+
+    /**
+     * The launcher for the selection screen.
+     * @param gameEnvironment the game environment that is launched with it.
+     */
+    public void launchSelectionScreen(GameEnvironment gameEnvironment) {
+        try {
+<span class="nc" id="L118">            FXMLLoader selectionScreenLoader = new FXMLLoader(getClass().getResource(&quot;/fxml/selection.fxml&quot;));</span>
+<span class="nc" id="L119">            selectionScreenLoader.setControllerFactory(param -&gt; new SelectionController(gameEnvironment));</span>
+<span class="nc" id="L120">            Parent setupParent  = selectionScreenLoader.load();</span>
+<span class="nc" id="L121">            pane.getChildren().add(setupParent);</span>
+<span class="nc" id="L122">            stage.setTitle(&quot;Blood Sweat Tears Selection Screen&quot;);</span>
+<span class="nc" id="L123">            stage.setHeight(425);</span>
+<span class="nc" id="L124">            stage.setWidth(600);</span>
+<span class="nc" id="L125">        } catch (IOException e) {</span>
+<span class="nc" id="L126">            e.printStackTrace();</span>
+<span class="nc" id="L127">        }</span>
+
+<span class="nc" id="L129">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

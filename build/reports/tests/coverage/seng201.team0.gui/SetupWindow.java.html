@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SetupWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.gui</a> &gt; <span class="el_source">SetupWindow.java</span></div><h1>SetupWindow.java</h1><pre class="source lang-java linenums">package seng201.team0.gui;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+/**
+ * The javaFX shop window.
+ */
+
+<span class="nc" id="L15">public class SetupWindow extends Application {</span>
+
+    /**
+     * Opens the gui with the fxml content specified in resources/fxml/setup.fxml
+     * @param primaryStage The current fxml stage, handled by javaFX Application class
+     * @throws IOException if there is an issue loading fxml file
+     */
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+
+<span class="nc" id="L25">        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource(&quot;/fxml/setup.fxml&quot;));</span>
+<span class="nc" id="L26">        Parent root = baseLoader.load();</span>
+
+<span class="nc" id="L28">        MainController baseController = baseLoader.getController();</span>
+<span class="nc" id="L29">        baseController.init(primaryStage);</span>
+
+<span class="nc" id="L31">        primaryStage.setTitle(&quot;Blood, Sweat, and Tears&quot;);</span>
+<span class="nc" id="L32">        Scene scene = new Scene(root, 600, 400);</span>
+<span class="nc" id="L33">        primaryStage.setScene(scene);</span>
+<span class="nc" id="L34">        primaryStage.show();</span>
+
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * Launches the FXML application
+     * @param args command line arguments
+     */
+    public static void launchWrapper(String [] args) {
+
+<span class="nc" id="L44">        launch(args);</span>
+
+<span class="nc" id="L46">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

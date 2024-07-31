@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TowerService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.services</a> &gt; <span class="el_source">TowerService.java</span></div><h1>TowerService.java</h1><pre class="source lang-java linenums">package seng201.team0.services;
+
+import seng201.team0.GameEnvironment;
+import seng201.team0.models.Purchasable;
+import seng201.team0.models.Tower;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+/**
+ * The tower service class, used to interact with tower. It contains all the methods used on towers.
+ */
+public class TowerService implements Purchasable&lt;TowerService&gt;{
+
+    private Tower tower;
+
+    /**
+     * The contructor for a tower service.
+     * @param size the size of the tower.
+     * @param speed the speed of the tower.
+     * @param type the types of the tower.
+     * @param price the price of the tower.
+     * @param name the towers name.
+     */
+<span class="fc" id="L25">    public TowerService(double size, double speed, ArrayList&lt;String&gt; type, int price, String name){</span>
+
+<span class="fc" id="L27">        tower = new Tower(size, speed, type, price, name);</span>
+
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * The getter method for types.
+     * @return the types of the towersService.
+     */
+    public ArrayList&lt;String&gt; getTypes(){
+
+<span class="fc" id="L37">        return tower.getTypes();</span>
+
+    }
+
+    /**
+     * The getter method for load size
+     * @return the loadSize of the tower service
+     */
+    public double getLoadSize() {
+
+<span class="fc" id="L47">        return tower.getLoadSize();</span>
+
+    }
+
+    /**
+     * The getter method for loadSpeed.
+     * @return the loadSpeed of the tower service.
+     */
+    public double getLoadSpeed() {
+
+<span class="fc" id="L57">        return tower.getLoadSpeed();</span>
+
+    }
+
+    /**
+     * The getter method for towerName.
+     * @return the name of the tower.
+     */
+    public String getTowerName(){
+
+<span class="fc" id="L67">        return tower.getTowerName();</span>
+
+    }
+
+    /**
+     * The get method for thw towers price.
+     * @return the tower price.
+     */
+    public int getPrice(){
+
+<span class="fc" id="L77">        return tower.getTowerPrice();</span>
+
+    }
+
+    /**
+     * This method levels up the tower.
+     */
+    public void levelUp(){
+
+<span class="fc" id="L86">        tower.setLoadSpeed(tower.getLoadSpeed() * 1.1);</span>
+<span class="fc" id="L87">        tower.setLoadSize(tower.getLoadSize() * 1.1);</span>
+<span class="fc" id="L88">        tower.setLevel(tower.getLevel() + 1);</span>
+
+<span class="fc" id="L90">    }</span>
+
+    /**
+     * This method returns whether a tower breaks or not, with a higher level tower being more likely to break.
+     * @return a boolean that is true if the tower broke.
+     */
+    public boolean doesTowerBreak(){
+
+<span class="fc" id="L98">        Random random = new Random();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (tower.getLevel() &gt;= 15) {</span>
+
+<span class="fc" id="L101">            return true;</span>
+
+        }
+
+<span class="fc" id="L105">        int num = random.nextInt(16- tower.getLevel());</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        return num == 3;</span>
+
+    }
+
+    /**
+     * The buy method for purchasable.
+     * @param e the game environment, to access and change coins.
+     * @param inventory the inventory the tower service is added to.
+     */
+    public void buy(GameEnvironment e, ArrayList&lt;Purchasable&lt;TowerService&gt;&gt; inventory) {
+
+<span class="fc bfc" id="L117" title="All 4 branches covered.">        if (e.getCoins() - this.getPrice() &gt;= 0 &amp;&amp; inventory.size() &lt; 10) {</span>
+<span class="fc" id="L118">            inventory.add(this);</span>
+<span class="fc" id="L119">            e.setCoins(e.getCoins() - this.getPrice());</span>
+        }
+
+<span class="fc" id="L122">    }</span>
+
+    /**
+     * The sell method for purchasable.
+     * @param e the game environment.
+     * @param inventory the inventory the tower is being sold from.
+     * @param index where the tower is in the inventory.
+     */
+    public void sell(GameEnvironment e, ArrayList&lt;Purchasable&lt;TowerService&gt;&gt; inventory, int index) {
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (e.getTowerInventory().size() - 1 &gt;= index) {</span>
+<span class="fc" id="L133">            TowerService temp = (TowerService) e.getTowerInventory().get(index);</span>
+<span class="fc" id="L134">            e.getTowerInventory().remove(index);</span>
+<span class="fc" id="L135">            e.setCoins((int) (e.getCoins() + (0.5 * temp.getPrice())));</span>
+        }
+
+<span class="fc" id="L138">    }</span>
+
+    /**
+     * The getter method for the towers level.
+     * @return the level of the tower.
+     */
+    public int getLevel(){
+
+<span class="fc" id="L146">        return tower.getLevel();</span>
+
+    }
+
+    /**
+     * This method creates a clone of a tower, used to add towers to your inventory.
+     * @return a clone of itself.
+     */
+    public TowerService makeClone(){
+
+<span class="fc" id="L156">        return new TowerService(this.getLoadSize(), this.getLoadSpeed(), this.getTypes(), this.getPrice(), this.getTowerName());</span>
+
+    }
+
+    /**
+     * This method uses an upgrade to upgrade the tower
+     * @param u the upgrade being used on the tower.
+     */
+    public void upgradeTower(UpgradeService u){
+
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (u.getUpgradeType().equals(&quot;LoadSize&quot;)) {</span>
+
+<span class="fc" id="L168">            tower.setLoadSize(tower.getLoadSize()*u.getLoadSizeMultiplier());</span>
+
+        } else {
+
+<span class="fc" id="L172">            tower.setLoadSpeed(tower.getLoadSpeed()*u.getSpeedMultiplier());</span>
+
+        }
+
+<span class="fc" id="L176">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

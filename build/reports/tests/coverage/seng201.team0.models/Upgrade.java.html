@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Upgrade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.models</a> &gt; <span class="el_source">Upgrade.java</span></div><h1>Upgrade.java</h1><pre class="source lang-java linenums">package seng201.team0.models;
+
+import java.util.ArrayList;
+
+/**
+ * The basic upgrade class.
+ * Contains getters and setters.
+ */
+public class Upgrade{
+    private String upgradeType;
+    private double loadSizeMultiplier;
+    private double speedMultiplier;
+    private int upgradePrice;
+
+    /**
+     * The constructor for a load size or speed upgrade.
+     * @param uType either &quot;LoadSize&quot; or &quot;Speed&quot;.
+     * @param multiplier the multiplier amount.
+     * @param price the price.
+     */
+<span class="fc" id="L21">    public Upgrade(String uType, double multiplier, int price){</span>
+
+<span class="fc" id="L23">        upgradePrice = price;</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (uType.equals(&quot;LoadSize&quot;)) {</span>
+
+<span class="fc" id="L27">            upgradeType = uType;</span>
+<span class="fc" id="L28">            loadSizeMultiplier = multiplier;</span>
+
+        } else {
+
+<span class="fc" id="L32">            upgradeType = &quot;Speed&quot;;</span>
+<span class="fc" id="L33">            speedMultiplier = multiplier;</span>
+
+        }
+
+<span class="fc" id="L37">    }</span>
+
+    /**
+     * The upgrade constructor when it's a spare life.
+     * @param price the price.
+     */
+<span class="fc" id="L43">    public Upgrade(int price){</span>
+
+<span class="fc" id="L45">        upgradePrice = price;</span>
+<span class="fc" id="L46">        upgradeType = &quot;Life&quot;;</span>
+
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * The getter method for load size multiplier.
+     * @return the load size multiplier.
+     */
+    public double getLoadSizeMultiplier(){
+
+<span class="fc" id="L56">        return loadSizeMultiplier;</span>
+
+    }
+
+    /**
+     * The getter method for speed multiplier.
+     * @return the speed multiplier.
+     */
+    public double getSpeedMultiplier(){
+
+<span class="fc" id="L66">        return speedMultiplier;</span>
+
+    }
+
+    /**
+     * The getter method for what type of upgrade it is.
+     * @return the type of the upgrade.
+     */
+    public String getUpgradeType(){
+
+<span class="fc" id="L76">        return upgradeType;</span>
+
+    }
+
+    /**
+     * The getter method for price.
+     * @return the price of the upgrade.
+     */
+    public int getPrice() {
+
+<span class="fc" id="L86">        return upgradePrice;</span>
+
+    }
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

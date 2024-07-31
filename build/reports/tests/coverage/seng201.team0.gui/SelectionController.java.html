@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SelectionController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.gui</a> &gt; <span class="el_source">SelectionController.java</span></div><h1>SelectionController.java</h1><pre class="source lang-java linenums">package seng201.team0.gui;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import seng201.team0.GameEnvironment;
+import seng201.team0.services.CartService;
+import seng201.team0.services.RoundService;
+
+import java.util.ArrayList;
+
+/**
+ * Controller for the selection.fxml window.
+ */
+
+
+public class SelectionController {
+    private final GameEnvironment gameEnvironment;
+    @FXML
+    Button distanceButton;
+    @FXML
+    Button priceButton;
+    @FXML
+    Button noChangesButton;
+    @FXML
+    Button backButton;
+    @FXML
+    Button startButton;
+    @FXML
+    Label cartInfoTo4;
+    @FXML
+    Label cartInfoTo10;
+
+    /**
+     * Constructor for SelectionController.
+     * @param g GameEnvironment
+     */
+<span class="nc" id="L38">    public SelectionController(GameEnvironment g){</span>
+
+<span class="nc" id="L40">        gameEnvironment = g;</span>
+
+<span class="nc" id="L42">    }</span>
+
+    /**
+     * Initializer for SelectionController, displays the carts for the next round.
+     */
+    public void initialize() {
+
+<span class="nc" id="L49">        startButton.setDisable(true);</span>
+
+<span class="nc" id="L51">        int currentRoundNum = gameEnvironment.getCurrentRound();</span>
+<span class="nc" id="L52">        RoundService currentRound = gameEnvironment.getRounds().get(currentRoundNum);</span>
+<span class="nc" id="L53">        String outputTo4 = &quot;&quot;;</span>
+<span class="nc" id="L54">        String outputTo10 = &quot;&quot;;</span>
+<span class="nc" id="L55">        int cap = Math.min(4, currentRound.getCarts().size());</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (int i = 0; i &lt; cap; i ++) {</span>
+
+<span class="nc" id="L59">            CartService cart = currentRound.getCarts().get(i);</span>
+<span class="nc" id="L60">            ArrayList&lt;String&gt; types = cart.getTypes();</span>
+<span class="nc" id="L61">            String typeString = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            for (int j = 0; j &lt; types.size(); j ++) {</span>
+
+<span class="nc" id="L65">                typeString += types.get(j);</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                if (j != types.size() - 1) {</span>
+
+<span class="nc" id="L69">                    typeString += &quot;, &quot;;</span>
+
+                } else {
+
+<span class="nc" id="L73">                    typeString += &quot; &quot;;</span>
+
+                }
+
+            }
+
+<span class="nc" id="L79">            String temp = &quot;Cart &quot; + (i + 1) + &quot;:\n   Size: &quot; + cart.getSize() + &quot;\n   Types: &quot; + typeString + &quot;\n   Speed: &quot; + cart.getSpeed();</span>
+<span class="nc" id="L80">            outputTo4 += temp + &quot;\n&quot;;</span>
+
+        }
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (currentRound.getCarts().size() &gt; 4) {</span>
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            for (int i = 4; i &lt; currentRound.getCarts().size(); i++) {</span>
+
+<span class="nc" id="L88">                CartService cart = currentRound.getCarts().get(i);</span>
+<span class="nc" id="L89">                ArrayList&lt;String&gt; types = cart.getTypes();</span>
+<span class="nc" id="L90">                String typeString = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                for (int j = 0; j &lt; types.size(); j++) {</span>
+
+<span class="nc" id="L94">                    typeString += types.get(j);</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                    if (j != types.size() - 1) {</span>
+
+<span class="nc" id="L98">                        typeString += &quot;, &quot;;</span>
+
+                    } else {
+
+<span class="nc" id="L102">                        typeString += &quot; &quot;;</span>
+
+                    }
+                }
+
+<span class="nc" id="L107">                String temp = &quot;Cart &quot; + (i + 1) + &quot;:\n   Size: &quot; + cart.getSize() + &quot;\n   Types: &quot; + typeString + &quot;\n   Speed: &quot; + cart.getSpeed();</span>
+<span class="nc" id="L108">                outputTo10 += temp + &quot;\n&quot;;</span>
+
+            }
+
+        }
+
+<span class="nc" id="L114">        cartInfoTo4.setText(outputTo4);</span>
+<span class="nc" id="L115">        cartInfoTo10.setText(outputTo10);</span>
+
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * On Action method for the back button, takes user to main screen.
+     */
+    public void backPressed(){
+
+<span class="nc" id="L124">        gameEnvironment.setMainScreenFromSelection(false);</span>
+<span class="nc" id="L125">        gameEnvironment.closeSelectionScreen();</span>
+<span class="nc" id="L126">        gameEnvironment.launchMainScreen();</span>
+
+<span class="nc" id="L128">    }</span>
+
+    /**
+     * On Action method for start button, takes user to main screen and starts the round.
+     */
+    public void startPressed(){
+
+<span class="nc" id="L135">        gameEnvironment.setMainScreenFromSelection(true);</span>
+<span class="nc" id="L136">        gameEnvironment.closeSelectionScreen();</span>
+<span class="nc" id="L137">        gameEnvironment.launchMainScreen();</span>
+
+<span class="nc" id="L139">    }</span>
+
+    /**
+     * On Action method for priceButton, updates booleans in GameEnvironment
+     */
+    public void higherPricePressed(){
+
+<span class="nc" id="L146">        startButton.setDisable(false);</span>
+<span class="nc" id="L147">        gameEnvironment.setSelectionHigherPrice(true);</span>
+<span class="nc" id="L148">        gameEnvironment.setSelectionShorterDistance(false);</span>
+<span class="nc" id="L149">        priceButton.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L150">        distanceButton.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L151">        noChangesButton.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L153">    }</span>
+
+    /**
+     * On Action method for distanceButton, updates booleans in GameEnvironment.
+     */
+    public void shorterDistancePressed(){
+
+<span class="nc" id="L160">        startButton.setDisable(false);</span>
+<span class="nc" id="L161">        gameEnvironment.setSelectionHigherPrice(false);</span>
+<span class="nc" id="L162">        gameEnvironment.setSelectionShorterDistance(true);</span>
+<span class="nc" id="L163">        distanceButton.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L164">        priceButton.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L165">        noChangesButton.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L167">    }</span>
+
+    /**
+     * On Action method for noChangesButton, updates booleans in GameEnvironment.
+     */
+    public void noChangesPressed(){
+
+<span class="nc" id="L174">        startButton.setDisable(false);</span>
+<span class="nc" id="L175">        gameEnvironment.setSelectionHigherPrice(false);</span>
+<span class="nc" id="L176">        gameEnvironment.setSelectionShorterDistance(false);</span>
+<span class="nc" id="L177">        noChangesButton.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L178">        distanceButton.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L179">        priceButton.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L181">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

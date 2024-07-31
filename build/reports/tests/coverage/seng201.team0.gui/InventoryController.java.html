@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.gui</a> &gt; <span class="el_source">InventoryController.java</span></div><h1>InventoryController.java</h1><pre class="source lang-java linenums">package seng201.team0.gui;
+
+import javafx.fxml.FXML;
+import seng201.team0.GameEnvironment;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import seng201.team0.services.TowerService;
+import seng201.team0.services.UpgradeService;
+import java.text.DecimalFormat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+/**
+ * Controller for the inventory.fxml window.
+ */
+
+public class InventoryController {
+    private final GameEnvironment gameEnvironment;
+
+    /**
+     * The constructor for the InventoryController, takes a game environment as a parameter
+     * @param g GameEnvironment for current game.
+     */
+<span class="nc" id="L26">    public InventoryController(GameEnvironment g){</span>
+
+<span class="nc" id="L28">        gameEnvironment = g;</span>
+
+<span class="nc" id="L30">    }</span>
+    @FXML
+    Label inventoryLabel;
+    @FXML
+    Button towerButton1;
+    @FXML
+    Button towerButton2;
+    @FXML
+    Button towerButton3;
+    @FXML
+    Button towerButton4;
+    @FXML
+    Button towerButton5;
+    @FXML
+    Button backupTowerButton1;
+    @FXML
+    Button backupTowerButton2;
+    @FXML
+    Button backupTowerButton3;
+    @FXML
+    Button backupTowerButton4;
+    @FXML
+    Button backupTowerButton5;
+    @FXML
+    Button upgradeButton1;
+    @FXML
+    Button upgradeButton2;
+    @FXML
+    Button upgradeButton3;
+    @FXML
+    Button backButton;
+    @FXML
+    Button applyUpgradeButton;
+    @FXML
+    Button swapTowersButton;
+    @FXML
+    Button sellButton;
+    @FXML
+    Label upgradesBanner;
+    @FXML
+    Label backupsBanner;
+    @FXML
+    Label currentTowersBanner;
+    @FXML
+    Label upgradeQuantity1;
+    @FXML
+    Label upgradeQuantity2;
+    @FXML
+    Label upgradeQuantity3;
+    @FXML
+    Label backup1LoadSpeed;
+    @FXML
+    Label backup2LoadSpeed;
+    @FXML
+    Label backup3LoadSpeed;
+    @FXML
+    Label backup4LoadSpeed;
+    @FXML
+    Label backup5LoadSpeed;
+    @FXML
+    Label backup1LoadSize;
+    @FXML
+    Label backup2LoadSize;
+    @FXML
+    Label backup3LoadSize;
+    @FXML
+    Label backup4LoadSize;
+    @FXML
+    Label backup5LoadSize;
+    @FXML
+    Label tower1LoadSpeed;
+    @FXML
+    Label tower2LoadSpeed;
+    @FXML
+    Label tower3LoadSpeed;
+    @FXML
+    Label tower4LoadSpeed;
+    @FXML
+    Label tower5LoadSpeed;
+    @FXML
+    Label tower1LoadSize;
+    @FXML
+    Label tower2LoadSize;
+    @FXML
+    Label tower3LoadSize;
+    @FXML
+    Label tower4LoadSize;
+    @FXML
+    Label tower5LoadSize;
+    @FXML
+    Label swappingInfo;
+    @FXML
+    Label upgradeInfo;
+    int selectedTower;
+    int selectedCurrentTower;
+    int selectedBackupTower;
+    int selectedUpgrade;
+<span class="nc" id="L127">    boolean upgradeSelected = false;</span>
+<span class="nc" id="L128">    boolean towerSelected = false;</span>
+<span class="nc" id="L129">    boolean backupSelected = false;</span>
+
+    /**
+     * Initializer for InventoryController, updates the GUI.
+     */
+    public void initialize(){
+
+<span class="nc" id="L136">        applyUpgradeButton.setDisable(true);</span>
+<span class="nc" id="L137">        swapTowersButton.setDisable(true);</span>
+<span class="nc" id="L138">        upgradeButton1.setText(&quot;Load Size&quot;);</span>
+<span class="nc" id="L139">        upgradeButton2.setText(&quot;Speed&quot;);</span>
+<span class="nc" id="L140">        upgradeButton3.setText(&quot;Extra Life&quot;);</span>
+<span class="nc" id="L141">        updateValues();</span>
+<span class="nc" id="L142">        updateButtonsHelper();</span>
+
+<span class="nc" id="L144">    }</span>
+
+    /**
+     * Helper function for updating all the labels in the inventory screen.
+     */
+    public void updateValues(){
+
+<span class="nc" id="L151">        ArrayList&lt;Button&gt; inventoryTowerButtons = new ArrayList&lt;&gt;(Arrays.asList(towerButton1, towerButton2, towerButton3, towerButton4, towerButton5, backupTowerButton1, backupTowerButton2, backupTowerButton3, backupTowerButton4, backupTowerButton5));</span>
+<span class="nc" id="L152">        ArrayList&lt;Button&gt; inventoryUpgradeButtons = new ArrayList&lt;&gt;(Arrays.asList(upgradeButton1, upgradeButton2, upgradeButton3));</span>
+<span class="nc" id="L153">        ArrayList&lt;Label&gt; inventoryLoadSizeLabels = new ArrayList&lt;&gt;(Arrays.asList(tower1LoadSize, tower2LoadSize, tower3LoadSize, tower4LoadSize, tower5LoadSize, backup1LoadSize, backup2LoadSize, backup3LoadSize, backup4LoadSize, backup5LoadSize));</span>
+<span class="nc" id="L154">        ArrayList&lt;Label&gt; inventoryLoadSpeedLabels = new ArrayList&lt;&gt;(Arrays.asList(tower1LoadSpeed, tower2LoadSpeed, tower3LoadSpeed, tower4LoadSpeed, tower5LoadSpeed, backup1LoadSpeed, backup2LoadSpeed, backup3LoadSpeed, backup4LoadSpeed, backup5LoadSpeed));</span>
+
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        for (int i = 0; i &lt; 10; i++) {</span>
+
+<span class="nc" id="L158">            inventoryTowerButtons.get(i).setDisable(true);</span>
+<span class="nc" id="L159">            inventoryTowerButtons.get(i).setStyle(&quot;&quot;);</span>
+<span class="nc" id="L160">            inventoryTowerButtons.get(i).setText(&quot;&quot;);</span>
+<span class="nc" id="L161">            inventoryLoadSizeLabels.get(i).setText(&quot;&quot;);</span>
+<span class="nc" id="L162">            inventoryLoadSpeedLabels.get(i).setText(&quot;&quot;);</span>
+
+        }
+
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        for (int i = 0; i &lt; 3; i++) {</span>
+
+<span class="nc" id="L168">            inventoryUpgradeButtons.get(i).setDisable(true);</span>
+<span class="nc" id="L169">            inventoryUpgradeButtons.get(i).setStyle(&quot;&quot;);</span>
+
+        }
+
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        if (!gameEnvironment.getTowerInventory().isEmpty()) {</span>
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            for (int i = 0; i &lt; gameEnvironment.getTowerInventory().size(); i++) {</span>
+
+<span class="nc" id="L177">                DecimalFormat decimalFormat = new DecimalFormat(&quot;#.#&quot;);</span>
+<span class="nc" id="L178">                inventoryTowerButtons.get(i).setDisable(false);</span>
+<span class="nc" id="L179">                inventoryTowerButtons.get(i).setText(((TowerService)gameEnvironment.getTowerInventory().get(i)).getTowerName());</span>
+<span class="nc" id="L180">                inventoryLoadSizeLabels.get(i).setText(decimalFormat.format(((TowerService)gameEnvironment.getTowerInventory().get(i)).getLoadSize()));</span>
+<span class="nc" id="L181">                inventoryLoadSpeedLabels.get(i).setText(decimalFormat.format(((TowerService)gameEnvironment.getTowerInventory().get(i)).getLoadSpeed()));</span>
+
+            }
+
+        }
+
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        if (!gameEnvironment.getLoadSizeUpgrades().isEmpty()) {</span>
+
+<span class="nc" id="L189">            inventoryUpgradeButtons.get(0).setDisable(false);</span>
+
+        }
+
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        if (!gameEnvironment.getSpeedUpgrades().isEmpty()) {</span>
+
+<span class="nc" id="L195">            inventoryUpgradeButtons.get(1).setDisable(false);</span>
+
+        }
+
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        if (!gameEnvironment.getLifeUpgrades().isEmpty()) {</span>
+
+<span class="nc" id="L201">            inventoryUpgradeButtons.get(2).setDisable(false);</span>
+
+        }
+
+<span class="nc" id="L205">        upgradeQuantity1.setText(String.valueOf(gameEnvironment.getLoadSizeUpgrades().size()));</span>
+<span class="nc" id="L206">        upgradeQuantity2.setText(String.valueOf(gameEnvironment.getSpeedUpgrades().size()));</span>
+<span class="nc" id="L207">        upgradeQuantity3.setText(String.valueOf(gameEnvironment.getLifeUpgrades().size()));</span>
+
+<span class="nc" id="L209">    }</span>
+
+    /**
+     * On Action method for the back button, closes the inventory screen and opens the appropriate screen.
+     */
+    public void backPressed(){
+
+<span class="nc" id="L216">        gameEnvironment.closeInventoryScreen();</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        if (gameEnvironment.getMainToInventory()) {</span>
+
+<span class="nc" id="L219">            gameEnvironment.setMainScreenFromSelection(false);</span>
+<span class="nc" id="L220">            gameEnvironment.launchMainScreen();</span>
+
+        }
+
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (gameEnvironment.getShopToInventory()) {</span>
+
+<span class="nc" id="L226">            gameEnvironment.launchShopScreen();</span>
+
+        }
+
+<span class="nc" id="L230">    }</span>
+
+    /**
+     * On Action method for the first upgrade button, shows this button as selected and deselects last button.
+     */
+    public void upgrade1Pressed(){
+
+<span class="nc bnc" id="L237" title="All 4 branches missed.">        if (selectedUpgrade == 0 &amp;&amp; upgradeSelected) {</span>
+
+<span class="nc" id="L239">            upgradeButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L240">            upgradeSelected = false;</span>
+<span class="nc" id="L241">            applyUpgradeButton.setDisable(true);</span>
+
+        } else {
+
+<span class="nc" id="L245">            upgradeButton1.setStyle(&quot;-fx-background-color: darkgreen; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L246">            upgradeSelected = true;</span>
+<span class="nc" id="L247">            applyUpgradeButton.setDisable(false);</span>
+
+        }
+
+<span class="nc" id="L251">        selectedUpgrade = 0;</span>
+<span class="nc" id="L252">        updateButtonsHelper();</span>
+<span class="nc" id="L253">        upgradeButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L254">        upgradeButton3.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L256">    }</span>
+
+    /**
+     * On Action method for the second upgrade button, shows this button as selected and deselects last button.
+     */
+    public void upgrade2Pressed(){
+
+<span class="nc bnc" id="L263" title="All 4 branches missed.">        if (selectedUpgrade == 1 &amp;&amp; upgradeSelected) {</span>
+
+<span class="nc" id="L265">            upgradeButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L266">            upgradeSelected = false;</span>
+<span class="nc" id="L267">            applyUpgradeButton.setDisable(true);</span>
+
+        } else {
+<span class="nc" id="L270">            upgradeButton2.setStyle(&quot;-fx-background-color: darkgreen; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L271">            upgradeSelected = true;</span>
+<span class="nc" id="L272">            applyUpgradeButton.setDisable(false);</span>
+        }
+
+<span class="nc" id="L275">        selectedUpgrade = 1;</span>
+<span class="nc" id="L276">        updateButtonsHelper();</span>
+<span class="nc" id="L277">        upgradeButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L278">        upgradeButton3.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L280">    }</span>
+
+    /**
+     * On Action method for the third upgrade button, shows this button as selected and deselects last button.
+     */
+    public void upgrade3Pressed(){
+
+<span class="nc bnc" id="L287" title="All 4 branches missed.">        if (selectedUpgrade == 2 &amp;&amp; upgradeSelected) {</span>
+
+<span class="nc" id="L289">            upgradeButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L290">            upgradeSelected = false;</span>
+<span class="nc" id="L291">            applyUpgradeButton.setDisable(true);</span>
+
+        } else {
+
+<span class="nc" id="L295">            upgradeButton3.setStyle(&quot;-fx-background-color: darkgreen; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L296">            upgradeSelected = true;</span>
+<span class="nc" id="L297">            applyUpgradeButton.setDisable(false);</span>
+
+        }
+
+<span class="nc" id="L301">        selectedUpgrade = 2;</span>
+<span class="nc" id="L302">        updateButtonsHelper();</span>
+<span class="nc" id="L303">        upgradeButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L304">        upgradeButton2.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L306">    }</span>
+
+    /**
+     * On Action method for the first tower button, shows this button as selected and deselects last button.
+     */
+    public void tower1Pressed(){
+
+<span class="nc bnc" id="L313" title="All 4 branches missed.">        if (selectedTower == 0 &amp;&amp; towerSelected) {</span>
+
+<span class="nc" id="L315">            towerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L316">            towerSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L320">            towerButton1.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L321">            towerSelected = true;</span>
+
+        }
+
+<span class="nc" id="L325">        selectedTower = 0;</span>
+<span class="nc" id="L326">        selectedCurrentTower = 0;</span>
+<span class="nc" id="L327">        updateButtonsHelper();</span>
+<span class="nc" id="L328">        towerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L329">        towerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L330">        towerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L331">        towerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L333">    }</span>
+
+    /**
+     * On Action method for the second tower button, shows this button as selected and deselects last button.
+     */
+    public void tower2Pressed(){
+
+<span class="nc bnc" id="L340" title="All 4 branches missed.">        if (selectedTower == 1 &amp;&amp; towerSelected) {</span>
+
+<span class="nc" id="L342">            towerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L343">            towerSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L347">            towerButton2.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L348">            towerSelected = true;</span>
+
+        }
+
+<span class="nc" id="L352">        selectedTower = 1;</span>
+<span class="nc" id="L353">        selectedCurrentTower = 1;</span>
+<span class="nc" id="L354">        updateButtonsHelper();</span>
+<span class="nc" id="L355">        towerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L356">        towerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L357">        towerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L358">        towerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L360">    }</span>
+
+    /**
+     * On Action method for the third tower button, shows this button as selected and deselects last button.
+     */
+    public void tower3Pressed(){
+
+<span class="nc bnc" id="L367" title="All 4 branches missed.">        if (selectedTower == 2 &amp;&amp; towerSelected) {</span>
+
+<span class="nc" id="L369">            towerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L370">            towerSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L374">            towerButton3.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L375">            towerSelected = true;</span>
+
+        }
+
+<span class="nc" id="L379">        selectedTower = 2;</span>
+<span class="nc" id="L380">        selectedCurrentTower = 2;</span>
+<span class="nc" id="L381">        updateButtonsHelper();</span>
+<span class="nc" id="L382">        towerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L383">        towerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L384">        towerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L385">        towerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L387">    }</span>
+
+    /**
+     * On Action method for the first fourth button, shows this button as selected and deselects last button.
+     */
+    public void tower4Pressed(){
+
+<span class="nc bnc" id="L394" title="All 4 branches missed.">        if (selectedTower == 3 &amp;&amp; towerSelected) {</span>
+
+<span class="nc" id="L396">            towerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L397">            towerSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L401">            towerButton4.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L402">            towerSelected = true;</span>
+
+        }
+
+<span class="nc" id="L406">        selectedTower = 3;</span>
+<span class="nc" id="L407">        selectedCurrentTower = 3;</span>
+<span class="nc" id="L408">        updateButtonsHelper();</span>
+<span class="nc" id="L409">        towerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L410">        towerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L411">        towerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L412">        towerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L414">    }</span>
+
+    /**
+     * On Action method for the fifth tower button, shows this button as selected and deselects last button.
+     */
+    public void tower5Pressed(){
+
+<span class="nc bnc" id="L421" title="All 4 branches missed.">        if (selectedTower == 4 &amp;&amp; towerSelected) {</span>
+
+<span class="nc" id="L423">            towerButton5.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L424">            towerSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L428">            towerButton5.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L429">            towerSelected = true;</span>
+
+        }
+
+<span class="nc" id="L433">        selectedTower = 4;</span>
+<span class="nc" id="L434">        selectedCurrentTower = 4;</span>
+<span class="nc" id="L435">        updateButtonsHelper();</span>
+<span class="nc" id="L436">        towerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L437">        towerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L438">        towerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L439">        towerButton1.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L441">    }</span>
+
+    /**
+     * On Action method for the first backup tower button, shows this button as selected and deselects last button.
+     */
+    public void backup1Pressed(){
+
+<span class="nc bnc" id="L448" title="All 4 branches missed.">        if (selectedTower == 5 &amp;&amp; backupSelected) {</span>
+
+<span class="nc" id="L450">            backupTowerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L451">            backupSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L455">            backupTowerButton1.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L456">            backupSelected = true;</span>
+
+        }
+
+<span class="nc" id="L460">        selectedTower = 5;</span>
+<span class="nc" id="L461">        selectedBackupTower = 0;</span>
+<span class="nc" id="L462">        updateButtonsHelper();</span>
+<span class="nc" id="L463">        backupTowerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L464">        backupTowerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L465">        backupTowerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L466">        backupTowerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L468">    }</span>
+
+    /**
+     * On Action method for the second backup tower button, shows this button as selected and deselects last button.
+     */
+    public void backup2Pressed(){
+
+<span class="nc bnc" id="L475" title="All 4 branches missed.">        if (selectedTower == 6 &amp;&amp; backupSelected) {</span>
+
+<span class="nc" id="L477">            backupTowerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L478">            backupSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L482">            backupTowerButton2.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L483">            backupSelected = true;</span>
+
+        }
+
+<span class="nc" id="L487">        selectedTower = 6;</span>
+<span class="nc" id="L488">        selectedBackupTower = 1;</span>
+<span class="nc" id="L489">        updateButtonsHelper();</span>
+<span class="nc" id="L490">        backupTowerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L491">        backupTowerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L492">        backupTowerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L493">        backupTowerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L495">    }</span>
+
+    /**
+     * On Action method for the third backup tower button, shows this button as selected and deselects last button.
+     */
+    public void backup3Pressed(){
+
+<span class="nc bnc" id="L502" title="All 4 branches missed.">        if (selectedTower == 7 &amp;&amp; backupSelected) {</span>
+
+<span class="nc" id="L504">            backupTowerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L505">            backupSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L509">            backupTowerButton3.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L510">            backupSelected = true;</span>
+
+        }
+
+<span class="nc" id="L514">        selectedTower = 7;</span>
+<span class="nc" id="L515">        selectedBackupTower = 2;</span>
+<span class="nc" id="L516">        updateButtonsHelper();</span>
+<span class="nc" id="L517">        backupTowerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L518">        backupTowerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L519">        backupTowerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L520">        backupTowerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L522">    }</span>
+
+    /**
+     * On Action method for the fourth backup tower button, shows this button as selected and deselects last button.
+     */
+    public void backup4Pressed(){
+
+<span class="nc bnc" id="L529" title="All 4 branches missed.">        if (selectedTower == 8 &amp;&amp; backupSelected) {</span>
+
+<span class="nc" id="L531">            backupTowerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L532">            backupSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L536">            backupTowerButton4.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L537">            backupSelected = true;</span>
+
+        }
+
+<span class="nc" id="L541">        selectedTower = 8;</span>
+<span class="nc" id="L542">        selectedBackupTower = 3;</span>
+<span class="nc" id="L543">        updateButtonsHelper();</span>
+<span class="nc" id="L544">        backupTowerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L545">        backupTowerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L546">        backupTowerButton1.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L547">        backupTowerButton5.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L549">    }</span>
+
+    /**
+     * On Action method for the fifth backup tower button, shows this button as selected and deselects last button.
+     */
+    public void backup5Pressed(){
+
+<span class="nc bnc" id="L556" title="All 4 branches missed.">        if (selectedTower == 9 &amp;&amp; backupSelected) {</span>
+
+<span class="nc" id="L558">            backupTowerButton5.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L559">            backupSelected = false;</span>
+
+        } else {
+
+<span class="nc" id="L563">            backupTowerButton5.setStyle(&quot;-fx-background-color: slateblue; -fx-text-fill: white;&quot;);</span>
+<span class="nc" id="L564">            backupSelected = true;</span>
+
+        }
+
+<span class="nc" id="L568">        selectedTower = 9;</span>
+<span class="nc" id="L569">        selectedBackupTower = 4;</span>
+<span class="nc" id="L570">        updateButtonsHelper();</span>
+<span class="nc" id="L571">        backupTowerButton2.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L572">        backupTowerButton3.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L573">        backupTowerButton4.setStyle(&quot;&quot;);</span>
+<span class="nc" id="L574">        backupTowerButton1.setStyle(&quot;&quot;);</span>
+
+<span class="nc" id="L576">    }</span>
+
+    /**
+     * On Action method for the apply upgrade button, determines what upgrade it is and then applies it to the selected tower.
+     */
+    public void applyUpgradePressed(){
+
+<span class="nc" id="L583">        TowerService tower = (TowerService) gameEnvironment.getTowerInventory().get(selectedTower);</span>
+
+<span class="nc bnc" id="L585" title="All 2 branches missed.">        if (selectedUpgrade == 0) {</span>
+
+<span class="nc" id="L587">            tower.upgradeTower((UpgradeService)gameEnvironment.getLoadSizeUpgrades().get(0));</span>
+<span class="nc" id="L588">            gameEnvironment.getLoadSizeUpgrades().remove(0);</span>
+
+        }
+
+<span class="nc bnc" id="L592" title="All 2 branches missed.">        if (selectedUpgrade == 1) {</span>
+
+<span class="nc" id="L594">            tower.upgradeTower((UpgradeService)gameEnvironment.getSpeedUpgrades().get(0));</span>
+<span class="nc" id="L595">            gameEnvironment.getSpeedUpgrades().remove(0);</span>
+
+        }
+
+<span class="nc" id="L599">        upgradeSelected = false;</span>
+<span class="nc" id="L600">        towerSelected = false;</span>
+<span class="nc" id="L601">        backupSelected = false;</span>
+<span class="nc" id="L602">        updateValues();</span>
+<span class="nc" id="L603">        updateButtonsHelper();</span>
+
+<span class="nc" id="L605">    }</span>
+
+    /**
+     * On Action method for the swap towers button, swaps the two selected towers in the GUI and in GameEnvironment.
+     */
+    public void swapTowersPressed(){
+
+<span class="nc" id="L612">        Collections.swap(gameEnvironment.getTowerInventory(), selectedCurrentTower, selectedBackupTower + 5);</span>
+<span class="nc" id="L613">        updateValues();</span>
+<span class="nc" id="L614">        towerSelected = false;</span>
+<span class="nc" id="L615">        backupSelected = false;</span>
+<span class="nc" id="L616">        updateButtonsHelper();</span>
+
+<span class="nc" id="L618">    }</span>
+
+    /**
+     * Helper function for updating the apply upgrade, swap towers, and sell button.
+     */
+    public void updateButtonsHelper(){
+
+<span class="nc bnc" id="L625" title="All 12 branches missed.">        applyUpgradeButton.setDisable(((!towerSelected || !upgradeSelected) &amp;&amp; (!backupSelected || !upgradeSelected)) || (selectedUpgrade != 0 &amp;&amp; selectedUpgrade != 1));</span>
+<span class="nc bnc" id="L626" title="All 4 branches missed.">        swapTowersButton.setDisable(!towerSelected || !backupSelected);</span>
+
+<span class="nc bnc" id="L628" title="All 6 branches missed.">        if (towerSelected &amp;&amp; backupSelected &amp;&amp; upgradeSelected) {</span>
+
+<span class="nc" id="L630">            applyUpgradeButton.setDisable(true);</span>
+<span class="nc" id="L631">            swapTowersButton.setDisable(true);</span>
+
+        }
+
+<span class="nc bnc" id="L635" title="All 18 branches missed.">        sellButton.setDisable((!towerSelected || backupSelected || upgradeSelected) &amp;&amp; (towerSelected || !backupSelected || upgradeSelected) &amp;&amp; (towerSelected || backupSelected || !upgradeSelected));</span>
+
+<span class="nc" id="L637">    }</span>
+
+    /**
+     * On Action method for the sell button, determines what object is selected and sells the object. Removes the object from GameEnvironment and calls updateValues() to remove from GUI.
+     */
+    public void sellPressed(){
+
+<span class="nc bnc" id="L644" title="All 4 branches missed.">        if (towerSelected || backupSelected) {</span>
+
+<span class="nc" id="L646">            gameEnvironment.getTowerInventory().get(selectedTower).sell(gameEnvironment, gameEnvironment.getTowerInventory(), selectedTower);</span>
+<span class="nc" id="L647">            towerSelected = false;</span>
+<span class="nc" id="L648">            backupSelected = false;</span>
+
+        }
+
+<span class="nc bnc" id="L652" title="All 2 branches missed.">        if (upgradeSelected) {</span>
+
+<span class="nc bnc" id="L654" title="All 2 branches missed.">            if (selectedUpgrade == 0) {</span>
+
+<span class="nc" id="L656">                gameEnvironment.getLoadSizeUpgrades().get(0).sell(gameEnvironment, gameEnvironment.getLoadSizeUpgrades(), selectedUpgrade);</span>
+
+            }
+
+<span class="nc bnc" id="L660" title="All 2 branches missed.">            if (selectedUpgrade == 1) {</span>
+
+<span class="nc" id="L662">                gameEnvironment.getSpeedUpgrades().get(0).sell(gameEnvironment, gameEnvironment.getSpeedUpgrades(), selectedUpgrade);</span>
+
+            }
+
+<span class="nc bnc" id="L666" title="All 2 branches missed.">            if (selectedUpgrade == 2) {</span>
+
+<span class="nc" id="L668">                gameEnvironment.getLifeUpgrades().get(0).sell(gameEnvironment, gameEnvironment.getLifeUpgrades(), selectedUpgrade);</span>
+
+            }
+
+<span class="nc" id="L672">            upgradeSelected = false;</span>
+
+        }
+
+<span class="nc" id="L676">        updateValues();</span>
+<span class="nc" id="L677">        updateButtonsHelper();</span>
+
+<span class="nc" id="L679">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

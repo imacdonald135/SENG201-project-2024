@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.gui</a> &gt; <span class="el_source">MainController.java</span></div><h1>MainController.java</h1><pre class="source lang-java linenums">package seng201.team0.gui;
+
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import seng201.team0.GameEnvironment;
+import seng201.team0.exceptions.RoundLostException;
+import seng201.team0.exceptions.RoundWonException;
+import seng201.team0.services.CartService;
+import seng201.team0.services.RoundService;
+import seng201.team0.services.TowerService;
+
+import javax.swing.text.html.ImageView;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/**
+ * Controller for the main.fxml window
+ * @author seng201 teaching team
+ */
+public class MainController {
+
+    @FXML
+    Label wonLostLabel;
+    @FXML
+    Label finalScreenLabel;
+    @FXML
+    Label pointsLabel;
+    @FXML
+    Label mainCoinsLabel;
+    @FXML
+    Label playerMessageLabel;
+    @FXML
+    Label mainPointsLabel;
+    @FXML
+    Button mainShopButton;
+    @FXML
+    Button mainInventoryButton;
+    @FXML
+    Button mainTowerButton1;
+    @FXML
+    Button mainTowerButton2;
+    @FXML
+    Button mainTowerButton3;
+    @FXML
+    Button mainTowerButton4;
+    @FXML
+    Button mainTowerButton5;
+    @FXML
+    Label mainRoundNumberLabel;
+    @FXML
+    Label cartTimeLeft1;
+    @FXML
+    Label cartTimeLeft2;
+    @FXML
+    Label cartTimeLeft3;
+    @FXML
+    Label cartTimeLeft4;
+    @FXML
+    Label cartTimeLeft5;
+    @FXML
+    Label cartTimeLeft6;
+    @FXML
+    Label cartTimeLeft7;
+    @FXML
+    Label cartTimeLeft8;
+    @FXML
+    Label cartTimeLeft9;
+    @FXML
+    Label cartTimeLeft10;
+    @FXML
+    Label cartCapacityLabel1;
+    @FXML
+    Label cartCapacityLabel2;
+    @FXML
+    Label cartCapacityLabel3;
+    @FXML
+    Label cartCapacityLabel4;
+    @FXML
+    Label cartCapacityLabel5;
+    @FXML
+    Label cartCapacityLabel6;
+    @FXML
+    Label cartCapacityLabel7;
+    @FXML
+    Label cartCapacityLabel8;
+    @FXML
+    Label cartCapacityLabel9;
+    @FXML
+    Label cartCapacityLabel10;
+    @FXML
+    Label mainMessageOutLabel1;
+    @FXML
+    Label mainMessageOutLabel2;
+    @FXML
+    Label mainTowerReloadSpeed1;
+    @FXML
+    Label mainTowerReloadSpeed2;
+    @FXML
+    Label mainTowerReloadSpeed3;
+    @FXML
+    Label mainTowerReloadSpeed4;
+    @FXML
+    Label mainTowerReloadSpeed5;
+    @FXML
+    Label mainTowerLoadSize1;
+    @FXML
+    Label mainTowerLoadSize2;
+    @FXML
+    Label mainTowerLoadSize3;
+    @FXML
+    Label mainTowerLoadSize4;
+    @FXML
+    Label mainTowerLoadSize5;
+    @FXML
+    Label mainTowerLevel1;
+    @FXML
+    Label mainTowerLevel2;
+    @FXML
+    Label mainTowerLevel3;
+    @FXML
+    Label mainTowerLevel4;
+    @FXML
+    Label mainTowerLevel5;
+    @FXML
+    Label mainCartsLabel;
+    @FXML
+    Label mainTowersLabel;
+    @FXML
+    Button mainCartButton1;
+    @FXML
+    Button mainCartButton2;
+    @FXML
+    Button mainCartButton3;
+    @FXML
+    Button mainCartButton4;
+    @FXML
+    Button mainCartButton5;
+    @FXML
+    Button mainCartButton6;
+    @FXML
+    Button mainCartButton7;
+    @FXML
+    Button mainCartButton8;
+    @FXML
+    Button mainCartButton9;
+    @FXML
+    Button mainCartButton10;
+    @FXML
+    Button startButton;
+    @FXML
+    Label playerNameLabel;
+    private final GameEnvironment gameEnvironment;
+
+
+    /**
+     * The constructor for the SetupController, takes a game environment as a parameter.
+     * @param g the game environment.
+     */
+<span class="nc" id="L163">    public MainController(GameEnvironment g){</span>
+
+<span class="nc" id="L165">        gameEnvironment = g;</span>
+
+<span class="nc" id="L167">    }</span>
+
+    /**
+     * The On Action method for the shop button, takes user to the shop.
+     */
+
+    public void onMainShopButtonClicked(){
+
+<span class="nc" id="L175">        gameEnvironment.closeMainScreen();</span>
+<span class="nc" id="L176">        gameEnvironment.launchShopScreen();</span>
+
+<span class="nc" id="L178">    }</span>
+
+    /**
+     * The On Action method for the inventory button, takes user to the inventory.
+     */
+
+    public void onMainInventoryButtonClicked(){
+
+<span class="nc" id="L186">        gameEnvironment.closeMainScreen();</span>
+<span class="nc" id="L187">        gameEnvironment.launchInventoryScreen();</span>
+<span class="nc" id="L188">        gameEnvironment.setMainToInventory(true);</span>
+<span class="nc" id="L189">        gameEnvironment.setShopToInventory(false);</span>
+
+<span class="nc" id="L191">    }</span>
+
+    /**
+     * The On Action method for the start button, takes user to the selection screen.
+     */
+    public void startPressed(){
+
+<span class="nc" id="L198">        gameEnvironment.closeMainScreen();</span>
+<span class="nc" id="L199">        gameEnvironment.launchSelectionScreen();</span>
+
+<span class="nc" id="L201">    }</span>
+
+    /**
+     * Initializes the main screen at the primary stage.
+     * @param primaryStage the primary stage
+     */
+<span class="nc" id="L207">    public void init(Stage primaryStage) {}</span>
+
+    /**
+     * The initializer for the main screen.
+     */
+    public void initialize(){
+
+<span class="nc" id="L214">        wonLostLabel.setDisable(true);</span>
+<span class="nc" id="L215">        finalScreenLabel.setDisable(true);</span>
+<span class="nc" id="L216">        pointsLabel.setDisable(true);</span>
+<span class="nc" id="L217">        wonLostLabel.setOpacity(0);</span>
+<span class="nc" id="L218">        finalScreenLabel.setOpacity(0);</span>
+<span class="nc" id="L219">        pointsLabel.setOpacity(0);</span>
+<span class="nc" id="L220">        playerNameLabel.setOpacity(0);</span>
+<span class="nc" id="L221">        gameEnvironment.updatePooledResourcesPerSecond();</span>
+<span class="nc" id="L222">        mainMessageOutLabel1.setText(&quot;&quot;);</span>
+<span class="nc" id="L223">        updateValues();</span>
+<span class="nc" id="L224">        ArrayList&lt;Label&gt; cartTimes = new ArrayList&lt;&gt;(Arrays.asList(cartTimeLeft1, cartTimeLeft2,cartTimeLeft3, cartTimeLeft4, cartTimeLeft5,cartTimeLeft6, cartTimeLeft7,cartTimeLeft8,cartTimeLeft9, cartTimeLeft10));</span>
+<span class="nc" id="L225">        ArrayList&lt;Label&gt; cartCapacities = new ArrayList&lt;&gt;(Arrays.asList(cartCapacityLabel1, cartCapacityLabel2,cartCapacityLabel3, cartCapacityLabel4, cartCapacityLabel5,cartCapacityLabel6, cartCapacityLabel7,cartCapacityLabel8,cartCapacityLabel9, cartCapacityLabel10));</span>
+<span class="nc" id="L226">        ArrayList&lt;Button&gt; cartButtons = new ArrayList&lt;&gt;((Arrays.asList(mainCartButton1,mainCartButton2,mainCartButton3,mainCartButton4,mainCartButton5,mainCartButton6, mainCartButton7,mainCartButton8,mainCartButton9, mainCartButton10)));</span>
+
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        for (int i = 0; i &lt; 10; i++) {</span>
+
+<span class="nc" id="L230">            cartButtons.get(i).setDisable(true);</span>
+<span class="nc" id="L231">            cartCapacities.get(i).setText(&quot;&quot;);</span>
+<span class="nc" id="L232">            cartTimes.get(i).setText(&quot;&quot;);</span>
+
+        }
+
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        for (int i = 0; i &lt; gameEnvironment.getCartFillLabelSaves().size(); i ++){</span>
+
+<span class="nc" id="L238">            cartButtons.get(i).setDisable(false);</span>
+<span class="nc" id="L239">            cartCapacities.get(i).setText(gameEnvironment.getCartFillLabelSaves().get(i));</span>
+<span class="nc" id="L240">            cartTimes.get(i).setText(gameEnvironment.getCartTimeLabelSaves().get(i));</span>
+
+        }
+
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        if (gameEnvironment.getMainScreenFromSelection()) {</span>
+
+<span class="nc" id="L246">            startRound();</span>
+
+        }
+
+<span class="nc" id="L250">        mainRoundNumberLabel.setText(&quot;Next Round: &quot;+(gameEnvironment.getCurrentRound()+1)+&quot;/&quot;+gameEnvironment.getNumOfRounds());</span>
+
+<span class="nc bnc" id="L252" title="All 2 branches missed.">        if (gameEnvironment.getCurrentRound() == gameEnvironment.getNumOfRounds()) {</span>
+
+<span class="nc" id="L254">            startButton.setDisable(true);</span>
+<span class="nc" id="L255">            clearAndDisableEverything(true);</span>
+
+        }
+
+<span class="nc" id="L259">    }</span>
+
+    /**
+     * This method sets up all the labels on the main screen before the round calculations start.
+     */
+    public void initialiseRound(){
+
+<span class="nc" id="L266">        int roundNum = gameEnvironment.getCurrentRound();</span>
+<span class="nc" id="L267">        RoundService round = gameEnvironment.getRounds().get(roundNum);</span>
+<span class="nc" id="L268">        ArrayList&lt;Label&gt; cartTimes = new ArrayList&lt;&gt;(Arrays.asList(cartTimeLeft1, cartTimeLeft2,cartTimeLeft3, cartTimeLeft4, cartTimeLeft5,cartTimeLeft6, cartTimeLeft7,cartTimeLeft8,cartTimeLeft9, cartTimeLeft10));</span>
+<span class="nc" id="L269">        ArrayList&lt;Label&gt; cartCapacities = new ArrayList&lt;&gt;(Arrays.asList(cartCapacityLabel1, cartCapacityLabel2,cartCapacityLabel3, cartCapacityLabel4, cartCapacityLabel5,cartCapacityLabel6, cartCapacityLabel7,cartCapacityLabel8,cartCapacityLabel9, cartCapacityLabel10));</span>
+<span class="nc" id="L270">        ArrayList&lt;Button&gt; cartButtons = new ArrayList&lt;&gt;((Arrays.asList(mainCartButton1,mainCartButton2,mainCartButton3,mainCartButton4,mainCartButton5,mainCartButton6, mainCartButton7,mainCartButton8,mainCartButton9, mainCartButton10)));</span>
+
+<span class="nc bnc" id="L272" title="All 2 branches missed.">        for (int i = 0; i &lt; round.getCarts().size(); i++){</span>
+
+<span class="nc" id="L274">            CartService cart = round.getCarts().get(i);</span>
+
+<span class="nc bnc" id="L276" title="All 2 branches missed.">            if (gameEnvironment.getSelectionShorterDistance()) {</span>
+
+<span class="nc" id="L278">                cart.setTimeLeft((int) (cart.getTimeLeft()*0.75));</span>
+
+            }
+
+<span class="nc" id="L282">            cartTimes.get(i).setText(String.valueOf(cart.getTimeLeft()));</span>
+<span class="nc" id="L283">            ArrayList&lt;String&gt; types = cart.getTypes();</span>
+
+<span class="nc bnc" id="L285" title="All 2 branches missed.">            if (types.contains(&quot;Blood&quot;)) {</span>
+
+<span class="nc" id="L287">                gameEnvironment.getCountOfEachTypeCart().set(0, gameEnvironment.getCountOfEachTypeCart().get(0)+1);</span>
+
+            }
+
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            if (types.contains(&quot;Sweat&quot;)) {</span>
+
+<span class="nc" id="L293">                gameEnvironment.getCountOfEachTypeCart().set(1, gameEnvironment.getCountOfEachTypeCart().get(1)+1);</span>
+
+            }
+
+<span class="nc bnc" id="L297" title="All 2 branches missed.">            if (types.contains(&quot;Tears&quot;)) {</span>
+
+<span class="nc" id="L299">                gameEnvironment.getCountOfEachTypeCart().set(2, gameEnvironment.getCountOfEachTypeCart().get(2)+1);</span>
+
+            }
+
+<span class="nc" id="L303">            cartCapacities.get(i).setText(&quot;0/&quot;+round.getCarts().get(i).getSize());</span>
+<span class="nc" id="L304">            cartButtons.get(i).setDisable(false);</span>
+
+        }
+
+<span class="nc" id="L308">    }</span>
+
+    /**
+     * This method clears and disables every button, and enables the final screen labels. It was done this way as the launcher
+     * for the final screen wasn't working.
+     * @param b true if the player won.
+     */
+    public void clearAndDisableEverything(boolean b){
+
+<span class="nc" id="L317">        playerMessageLabel.setOpacity(0);</span>
+<span class="nc" id="L318">        mainPointsLabel.setOpacity(0);</span>
+<span class="nc" id="L319">        mainCoinsLabel.setOpacity(0);</span>
+<span class="nc" id="L320">        mainShopButton.setOpacity(0);</span>
+<span class="nc" id="L321">        mainInventoryButton.setOpacity(0);</span>
+<span class="nc" id="L322">        mainTowerButton1.setOpacity(0);</span>
+<span class="nc" id="L323">        mainTowerButton2.setOpacity(0);</span>
+<span class="nc" id="L324">        mainTowerButton3.setOpacity(0);</span>
+<span class="nc" id="L325">        mainTowerButton4.setOpacity(0);</span>
+<span class="nc" id="L326">        mainTowerButton5.setOpacity(0);</span>
+<span class="nc" id="L327">        mainRoundNumberLabel.setOpacity(0);</span>
+<span class="nc" id="L328">        cartTimeLeft1.setOpacity(0);</span>
+<span class="nc" id="L329">        cartTimeLeft2.setOpacity(0);</span>
+<span class="nc" id="L330">        cartTimeLeft3.setOpacity(0);</span>
+<span class="nc" id="L331">        cartTimeLeft4.setOpacity(0);</span>
+<span class="nc" id="L332">        cartTimeLeft5.setOpacity(0);</span>
+<span class="nc" id="L333">        cartTimeLeft6.setOpacity(0);</span>
+<span class="nc" id="L334">        cartTimeLeft7.setOpacity(0);</span>
+<span class="nc" id="L335">        cartTimeLeft8.setOpacity(0);</span>
+<span class="nc" id="L336">        cartTimeLeft9.setOpacity(0);</span>
+<span class="nc" id="L337">        cartTimeLeft10.setOpacity(0);</span>
+<span class="nc" id="L338">        cartCapacityLabel1.setOpacity(0);</span>
+<span class="nc" id="L339">        cartCapacityLabel2.setOpacity(0);</span>
+<span class="nc" id="L340">        cartCapacityLabel3.setOpacity(0);</span>
+<span class="nc" id="L341">        cartCapacityLabel4.setOpacity(0);</span>
+<span class="nc" id="L342">        cartCapacityLabel5.setOpacity(0);</span>
+<span class="nc" id="L343">        cartCapacityLabel6.setOpacity(0);</span>
+<span class="nc" id="L344">        cartCapacityLabel7.setOpacity(0);</span>
+<span class="nc" id="L345">        cartCapacityLabel8.setOpacity(0);</span>
+<span class="nc" id="L346">        cartCapacityLabel9.setOpacity(0);</span>
+<span class="nc" id="L347">        cartCapacityLabel10.setOpacity(0);</span>
+<span class="nc" id="L348">        mainMessageOutLabel1.setOpacity(0);</span>
+<span class="nc" id="L349">        mainMessageOutLabel2.setOpacity(0);</span>
+<span class="nc" id="L350">        mainTowerReloadSpeed1.setOpacity(0);</span>
+<span class="nc" id="L351">        mainTowerReloadSpeed2.setOpacity(0);</span>
+<span class="nc" id="L352">        mainTowerReloadSpeed3.setOpacity(0);</span>
+<span class="nc" id="L353">        mainTowerReloadSpeed4.setOpacity(0);</span>
+<span class="nc" id="L354">        mainTowerReloadSpeed5.setOpacity(0);</span>
+<span class="nc" id="L355">        mainTowerLoadSize1.setOpacity(0);</span>
+<span class="nc" id="L356">        mainTowerLoadSize2.setOpacity(0);</span>
+<span class="nc" id="L357">        mainTowerLoadSize3.setOpacity(0);</span>
+<span class="nc" id="L358">        mainTowerLoadSize4.setOpacity(0);</span>
+<span class="nc" id="L359">        mainTowerLoadSize5.setOpacity(0);</span>
+<span class="nc" id="L360">        mainCartsLabel.setOpacity(0);</span>
+<span class="nc" id="L361">        mainTowersLabel.setOpacity(0);</span>
+<span class="nc" id="L362">        mainCartButton1.setOpacity(0);</span>
+<span class="nc" id="L363">        mainCartButton2.setOpacity(0);</span>
+<span class="nc" id="L364">        mainCartButton3.setOpacity(0);</span>
+<span class="nc" id="L365">        mainCartButton4.setOpacity(0);</span>
+<span class="nc" id="L366">        mainCartButton5.setOpacity(0);</span>
+<span class="nc" id="L367">        mainCartButton6.setOpacity(0);</span>
+<span class="nc" id="L368">        mainCartButton7.setOpacity(0);</span>
+<span class="nc" id="L369">        mainCartButton8.setOpacity(0);</span>
+<span class="nc" id="L370">        mainCartButton9.setOpacity(0);</span>
+<span class="nc" id="L371">        mainCartButton10.setOpacity(0);</span>
+<span class="nc" id="L372">        startButton.setOpacity(0);</span>
+<span class="nc" id="L373">        mainTowerLevel1.setOpacity(0);</span>
+<span class="nc" id="L374">        mainTowerLevel2.setOpacity(0);</span>
+<span class="nc" id="L375">        mainTowerLevel3.setOpacity(0);</span>
+<span class="nc" id="L376">        mainTowerLevel4.setOpacity(0);</span>
+<span class="nc" id="L377">        mainTowerLevel5.setOpacity(0);</span>
+<span class="nc" id="L378">        mainShopButton.setDisable(true);</span>
+<span class="nc" id="L379">        mainInventoryButton.setDisable(true);</span>
+<span class="nc" id="L380">        mainTowerButton1.setDisable(true);</span>
+<span class="nc" id="L381">        mainTowerButton2.setDisable(true);</span>
+<span class="nc" id="L382">        mainTowerButton3.setDisable(true);</span>
+<span class="nc" id="L383">        mainTowerButton4.setDisable(true);</span>
+<span class="nc" id="L384">        mainTowerButton5.setDisable(true);</span>
+<span class="nc" id="L385">        mainCartButton1.setDisable(true);</span>
+<span class="nc" id="L386">        mainCartButton2.setDisable(true);</span>
+<span class="nc" id="L387">        mainCartButton3.setDisable(true);</span>
+<span class="nc" id="L388">        mainCartButton4.setDisable(true);</span>
+<span class="nc" id="L389">        mainCartButton5.setDisable(true);</span>
+<span class="nc" id="L390">        mainCartButton6.setDisable(true);</span>
+<span class="nc" id="L391">        mainCartButton7.setDisable(true);</span>
+<span class="nc" id="L392">        mainCartButton8.setDisable(true);</span>
+<span class="nc" id="L393">        mainCartButton9.setDisable(true);</span>
+<span class="nc" id="L394">        mainCartButton10.setDisable(true);</span>
+<span class="nc" id="L395">        startButton.setDisable(true);</span>
+<span class="nc" id="L396">        finalScreenLabel.setDisable(false);</span>
+<span class="nc" id="L397">        finalScreenLabel.setOpacity(100);</span>
+<span class="nc" id="L398">        playerNameLabel.setOpacity(100);</span>
+<span class="nc" id="L399">        pointsLabel.setDisable(false);</span>
+<span class="nc" id="L400">        pointsLabel.setOpacity(100);</span>
+<span class="nc" id="L401">        pointsLabel.setText(&quot;You got &quot; + gameEnvironment.getPoints() + &quot; points&quot;);</span>
+<span class="nc" id="L402">        playerNameLabel.setText(gameEnvironment.getPlayerName() + &quot;!&quot;);</span>
+
+<span class="nc bnc" id="L404" title="All 2 branches missed.">        if (b) {</span>
+
+<span class="nc" id="L406">            wonLostLabel.setDisable(false);</span>
+<span class="nc" id="L407">            wonLostLabel.setOpacity(100);</span>
+<span class="nc" id="L408">            wonLostLabel.setText(&quot;Congrats! You beat all &quot; + gameEnvironment.getNumOfRounds() + &quot; rounds!&quot;);</span>
+
+        } else {
+
+<span class="nc" id="L412">            wonLostLabel.setDisable(false);</span>
+<span class="nc" id="L413">            wonLostLabel.setOpacity(100);</span>
+<span class="nc" id="L414">            wonLostLabel.setText(&quot;You lost the game on round &quot; + (gameEnvironment.getCurrentRound() + 1) + &quot;/&quot; + gameEnvironment.getNumOfRounds() + &quot;!&quot;);</span>
+
+        }
+
+<span class="nc" id="L418">    }</span>
+
+    /**
+     * This method works out the slowest cart in a round's time ie the length of a round.
+     * @return the time of a round.
+     */
+    public int getMaxTime(){
+
+<span class="nc" id="L426">        int maxTime = 0;</span>
+<span class="nc" id="L427">        int roundNum = gameEnvironment.getCurrentRound();</span>
+<span class="nc" id="L428">        RoundService round = gameEnvironment.getRounds().get(roundNum);</span>
+
+<span class="nc bnc" id="L430" title="All 2 branches missed.">        for(int i = 0; i &lt; round.getCarts().size(); i++){</span>
+
+<span class="nc bnc" id="L432" title="All 2 branches missed.">            if (round.getCarts().get(i).getTimeLeft()&gt;maxTime) {</span>
+
+<span class="nc" id="L434">                maxTime = round.getCarts().get(i).getTimeLeft();</span>
+
+            }
+
+        }
+
+<span class="nc" id="L440">        return maxTime;</span>
+
+    }
+
+    /**
+     * This method is used to start a round, calls oneSecondUpdate() and works out on each tick if the player won, lost or neither.
+     */
+    public void startRound(){
+
+<span class="nc" id="L449">        gameEnvironment.resetCartLabelSaves();</span>
+<span class="nc" id="L450">        ArrayList&lt;Label&gt; cartTimes = new ArrayList&lt;&gt;(Arrays.asList(cartTimeLeft1, cartTimeLeft2,cartTimeLeft3, cartTimeLeft4, cartTimeLeft5,cartTimeLeft6, cartTimeLeft7,cartTimeLeft8,cartTimeLeft9, cartTimeLeft10));</span>
+<span class="nc" id="L451">        ArrayList&lt;Label&gt; cartCapacities = new ArrayList&lt;&gt;(Arrays.asList(cartCapacityLabel1, cartCapacityLabel2,cartCapacityLabel3, cartCapacityLabel4, cartCapacityLabel5,cartCapacityLabel6, cartCapacityLabel7,cartCapacityLabel8,cartCapacityLabel9, cartCapacityLabel10));</span>
+<span class="nc" id="L452">        initialiseRound();</span>
+<span class="nc" id="L453">        int maxTime = getMaxTime();</span>
+<span class="nc" id="L454">        int seconds = 0;</span>
+
+<span class="nc bnc" id="L456" title="All 2 branches missed.">        if (gameEnvironment.getTowerInventory().isEmpty()) {</span>
+
+<span class="nc bnc" id="L458" title="All 6 branches missed.">            if (gameEnvironment.getCoins() &lt; 10 &amp;&amp; (gameEnvironment.getLoadSizeUpgrades().size() + gameEnvironment.getSpeedUpgrades().size() &lt; 5 || gameEnvironment.getLifeUpgrades().isEmpty())) {</span>
+
+<span class="nc" id="L460">                clearAndDisableEverything(false);</span>
+
+            }
+
+        }
+
+        try {
+
+<span class="nc bnc" id="L468" title="All 2 branches missed.">            while(seconds &lt; maxTime) {</span>
+
+<span class="nc" id="L470">                oneSecondUpdate();</span>
+<span class="nc" id="L471">                seconds++;</span>
+
+            }
+
+<span class="nc" id="L475">        } catch (RoundLostException e) {</span>
+
+<span class="nc bnc" id="L477" title="All 2 branches missed.">            if (!gameEnvironment.getLifeUpgrades().isEmpty()) {</span>
+
+<span class="nc" id="L479">                playerMessageLabel.setText(&quot;You beat round &quot; + (gameEnvironment.getCurrentRound()+1) + &quot; using one of your extra lives.&quot;);</span>
+<span class="nc" id="L480">                gameEnvironment.getLifeUpgrades().remove(0);</span>
+
+            } else {
+
+<span class="nc" id="L484">                clearAndDisableEverything(false);</span>
+
+            }
+
+<span class="nc" id="L488">        } catch (RoundWonException e) {</span>
+
+<span class="nc" id="L490">            playerMessageLabel.setText(&quot;You beat round &quot; + (gameEnvironment.getCurrentRound()+1) + &quot;!&quot;);</span>
+
+<span class="nc" id="L492">        }</span>
+
+<span class="nc bnc" id="L494" title="All 2 branches missed.">        for(int i = 0; i &lt; gameEnvironment.getRounds().get(gameEnvironment.getCurrentRound()).getCarts().size(); i++){</span>
+
+<span class="nc" id="L496">            gameEnvironment.getCartTimeLabelSaves().add(cartTimes.get(i).getText());</span>
+<span class="nc" id="L497">            gameEnvironment.getCartFillLabelSaves().add(cartCapacities.get(i).getText());</span>
+
+
+        }
+
+<span class="nc" id="L502">        gameEnvironment.setCurrentRound(gameEnvironment.getCurrentRound()+1);</span>
+<span class="nc" id="L503">        gameEnvironment.resetCountOfEachTypeOfCount();</span>
+
+<span class="nc bnc" id="L505" title="All 2 branches missed.">        if (gameEnvironment.getHardMode()) {</span>
+
+<span class="nc bnc" id="L507" title="All 4 branches missed.">            if (gameEnvironment.getSelectionShorterDistance() || gameEnvironment.getSelectionHigherPrice()) {</span>
+
+<span class="nc" id="L509">                gameEnvironment.setPoint(gameEnvironment.getPoints() + (20 * (gameEnvironment.getCurrentRound() + 1)));</span>
+<span class="nc" id="L510">                gameEnvironment.setCoins(gameEnvironment.getCoins() + (10 * (gameEnvironment.getCurrentRound() + 1)));</span>
+
+            } else {
+
+<span class="nc" id="L514">                gameEnvironment.setPoint(gameEnvironment.getPoints() + (15 * (gameEnvironment.getCurrentRound() + 1)));</span>
+<span class="nc" id="L515">                gameEnvironment.setCoins(gameEnvironment.getCoins() + (7 * (gameEnvironment.getCurrentRound() + 1)));</span>
+
+            }
+
+        } else {
+
+<span class="nc bnc" id="L521" title="All 4 branches missed.">            if (gameEnvironment.getSelectionShorterDistance() || gameEnvironment.getSelectionHigherPrice()) {</span>
+
+<span class="nc" id="L523">                gameEnvironment.setPoint(gameEnvironment.getPoints() + (15 * (gameEnvironment.getCurrentRound() + 1)));</span>
+<span class="nc" id="L524">                gameEnvironment.setCoins(gameEnvironment.getCoins() + (15 * (gameEnvironment.getCurrentRound() + 1)));</span>
+
+            } else {
+
+<span class="nc" id="L528">                gameEnvironment.setPoint(gameEnvironment.getPoints() + (10 * (gameEnvironment.getCurrentRound() + 1)));</span>
+<span class="nc" id="L529">                gameEnvironment.setCoins(gameEnvironment.getCoins() + (10 * (gameEnvironment.getCurrentRound() + 1)));</span>
+
+            }
+
+        }
+
+<span class="nc" id="L535">        int towerBrokeIndex = gameEnvironment.towerBreakCalculator();</span>
+
+<span class="nc bnc" id="L537" title="All 2 branches missed.">        if (towerBrokeIndex != -1) {</span>
+
+<span class="nc" id="L539">            mainMessageOutLabel1.setText(&quot;Tower at slot &quot; + (towerBrokeIndex + 1) + &quot; broke, sorry!&quot;);</span>
+
+        }
+
+<span class="nc" id="L543">        gameEnvironment.levelUpTowers();</span>
+
+<span class="nc bnc" id="L545" title="All 2 branches missed.">        if (!gameEnvironment.getTowerInventory().isEmpty()) {</span>
+
+<span class="nc" id="L547">            int towerBonusUpgradeIndex = gameEnvironment.randomTowerLevelUpCalculator();</span>
+
+<span class="nc bnc" id="L549" title="All 2 branches missed.">            if (towerBonusUpgradeIndex != -1) {</span>
+
+<span class="nc" id="L551">                mainMessageOutLabel2.setText(&quot;Tower at slot &quot; + (towerBonusUpgradeIndex + 1) + &quot; leveled up again!&quot;);</span>
+
+            }
+
+        }
+
+<span class="nc" id="L557">        updateValues();</span>
+
+<span class="nc" id="L559">    }</span>
+
+    /**
+     * This method calculates and updated cart values, based on what would happen in one second of the game.
+     * @throws RoundLostException this is thrown if the player loses the round on a game tick.
+     * @throws RoundWonException this is thrown if a player fill every cart in a round.
+     */
+    public void oneSecondUpdate() throws RoundLostException, RoundWonException{
+
+<span class="nc" id="L568">        boolean roundBeat = true;</span>
+<span class="nc" id="L569">        int roundNum = gameEnvironment.getCurrentRound();</span>
+<span class="nc" id="L570">        RoundService round = gameEnvironment.getRounds().get(roundNum);</span>
+<span class="nc" id="L571">        ArrayList&lt;Label&gt; cartTimes = new ArrayList&lt;&gt;(Arrays.asList(cartTimeLeft1, cartTimeLeft2,cartTimeLeft3, cartTimeLeft4, cartTimeLeft5,cartTimeLeft6, cartTimeLeft7,cartTimeLeft8,cartTimeLeft9, cartTimeLeft10));</span>
+<span class="nc" id="L572">        ArrayList&lt;Label&gt; cartCapacities = new ArrayList&lt;&gt;(Arrays.asList(cartCapacityLabel1, cartCapacityLabel2,cartCapacityLabel3, cartCapacityLabel4, cartCapacityLabel5,cartCapacityLabel6, cartCapacityLabel7,cartCapacityLabel8,cartCapacityLabel9, cartCapacityLabel10));</span>
+
+<span class="nc bnc" id="L574" title="All 2 branches missed.">        for(int i = 0; i &lt; round.getCarts().size(); i++){</span>
+
+<span class="nc" id="L576">            CartService cart = round.getCarts().get(i);</span>
+
+<span class="nc bnc" id="L578" title="All 2 branches missed.">            if (cart.getFilled()) {</span>
+
+<span class="nc" id="L580">                cartTimes.get(i).setText(&quot;Filled!&quot;);</span>
+<span class="nc" id="L581">                continue;</span>
+
+            } else {
+
+<span class="nc" id="L585">                roundBeat = false;</span>
+
+            }
+
+<span class="nc" id="L589">            cart.decreaseTimeLeft();</span>
+
+<span class="nc bnc" id="L591" title="All 2 branches missed.">             if (cart.getTimeRanOut()) {</span>
+
+<span class="nc" id="L593">                cartTimes.get(i).setText(&quot;Time Ran Out!&quot;);</span>
+<span class="nc" id="L594">                throw new RoundLostException();</span>
+
+            }
+
+<span class="nc" id="L598">            cartTimes.get(i).setText((&quot;Time Left: &quot;+cart.getTimeLeft()));</span>
+<span class="nc" id="L599">            int amountToFill = 0;</span>
+
+<span class="nc bnc" id="L601" title="All 4 branches missed.">            if (cart.getTypes().contains(&quot;Blood&quot;) &amp;&amp; gameEnvironment.getCountOfEachTypeCart().get(0) != 0) {</span>
+
+<span class="nc" id="L603">                amountToFill += gameEnvironment.getPooledResourcesPerSecond().get(0)/gameEnvironment.getCountOfEachTypeCart().get(0);</span>
+
+            }
+
+<span class="nc bnc" id="L607" title="All 4 branches missed.">            if (cart.getTypes().contains(&quot;Sweat&quot;) &amp;&amp; gameEnvironment.getCountOfEachTypeCart().get(1) != 0) {</span>
+
+<span class="nc" id="L609">                amountToFill += gameEnvironment.getPooledResourcesPerSecond().get(1)/gameEnvironment.getCountOfEachTypeCart().get(1);</span>
+
+            }
+
+<span class="nc bnc" id="L613" title="All 4 branches missed.">            if (cart.getTypes().contains(&quot;Tears&quot;) &amp;&amp; gameEnvironment.getCountOfEachTypeCart().get(2) != 0) {</span>
+
+<span class="nc" id="L615">                amountToFill += gameEnvironment.getPooledResourcesPerSecond().get(2)/gameEnvironment.getCountOfEachTypeCart().get(2);</span>
+
+            }
+
+<span class="nc bnc" id="L619" title="All 2 branches missed.">            if (gameEnvironment.getSelectionHigherPrice()) {</span>
+
+<span class="nc" id="L621">                cart.setCurrentFill((int)(cart.getCurrentFill() + amountToFill*0.75));</span>
+
+            } else {
+
+<span class="nc" id="L625">                cart.setCurrentFill(cart.getCurrentFill() + amountToFill);</span>
+
+            }
+
+<span class="nc" id="L629">            cartCapacities.get(i).setText(cart.getCurrentFill() + &quot;/&quot; + cart.getSize());</span>
+
+        }
+
+<span class="nc bnc" id="L633" title="All 2 branches missed.">        if (roundBeat) {</span>
+
+<span class="nc" id="L635">            throw new RoundWonException();</span>
+
+        }
+
+<span class="nc" id="L639">    }</span>
+
+    /**
+     * This method updates all the values of labels and buttons on the main screen.
+     */
+    public void updateValues(){
+<span class="nc" id="L645">        ArrayList&lt;Button&gt; towerButtons = new ArrayList&lt;&gt;(Arrays.asList(mainTowerButton1, mainTowerButton2, mainTowerButton3, mainTowerButton4, mainTowerButton5));</span>
+<span class="nc" id="L646">        ArrayList&lt;Label&gt; loadSpeedLabels = new ArrayList&lt;&gt;(Arrays.asList(mainTowerReloadSpeed1, mainTowerReloadSpeed2, mainTowerReloadSpeed3, mainTowerReloadSpeed4, mainTowerReloadSpeed5));</span>
+<span class="nc" id="L647">        ArrayList&lt;Label&gt; loadSizeLabels = new ArrayList&lt;&gt;(Arrays.asList(mainTowerLoadSize1, mainTowerLoadSize2, mainTowerLoadSize3, mainTowerLoadSize4, mainTowerLoadSize5));</span>
+<span class="nc" id="L648">        ArrayList&lt;Label&gt; levelLabels = new ArrayList&lt;&gt;(Arrays.asList(mainTowerLevel1, mainTowerLevel2, mainTowerLevel3, mainTowerLevel4, mainTowerLevel5));</span>
+
+<span class="nc bnc" id="L650" title="All 2 branches missed.">        for(int i = 0; i &lt; 5; i++){</span>
+
+<span class="nc" id="L652">            towerButtons.get(i).setDisable(true);</span>
+<span class="nc" id="L653">            towerButtons.get(i).setText(&quot;&quot;);</span>
+<span class="nc" id="L654">            loadSpeedLabels.get(i).setText(&quot;Reload Speed:&quot;);</span>
+<span class="nc" id="L655">            loadSizeLabels.get(i).setText(&quot;Load Size:&quot;);</span>
+<span class="nc" id="L656">            levelLabels.get(i).setText(&quot;Level:&quot;);</span>
+
+        }
+
+<span class="nc" id="L660">        int cap = Math.min(5, gameEnvironment.getTowerInventory().size());</span>
+
+<span class="nc bnc" id="L662" title="All 2 branches missed.">        for(int i = 0; i &lt; cap; i++){</span>
+
+<span class="nc" id="L664">            DecimalFormat decimalFormat = new DecimalFormat(&quot;#.#&quot;);</span>
+<span class="nc" id="L665">            towerButtons.get(i).setDisable(false);</span>
+<span class="nc" id="L666">            towerButtons.get(i).setText(((TowerService)gameEnvironment.getTowerInventory().get(i)).getTowerName());</span>
+<span class="nc" id="L667">            loadSpeedLabels.get(i).setText(&quot;Reload Speed: &quot; + decimalFormat.format(((TowerService)gameEnvironment.getTowerInventory().get(i)).getLoadSpeed()));</span>
+<span class="nc" id="L668">            loadSizeLabels.get(i).setText(&quot;Load Size: &quot; + decimalFormat.format(((TowerService)gameEnvironment.getTowerInventory().get(i)).getLoadSize()));</span>
+<span class="nc" id="L669">            levelLabels.get(i).setText(&quot;Level: &quot; + ((TowerService)gameEnvironment.getTowerInventory().get(i)).getLevel());</span>
+
+        }
+
+<span class="nc" id="L673">        mainPointsLabel.setText(&quot;Points: &quot;+gameEnvironment.getPoints());</span>
+<span class="nc" id="L674">        mainCoinsLabel.setText(&quot;Coins: &quot;+gameEnvironment.getCoins());</span>
+
+<span class="nc" id="L676">    }</span>
+
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

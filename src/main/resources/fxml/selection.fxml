@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.SelectionController">
+   <children>
+      <ImageView fitHeight="421.0" fitWidth="600.0" opacity="0.33" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/otherBackground.jpeg" />
+         </image>
+      </ImageView>
+      <Label layoutX="157.0" layoutY="14.0" text="Select Difficulty for Next Round">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <Button fx:id="backButton" layoutX="521.0" layoutY="14.0" mnemonicParsing="false" onAction="#backPressed" prefHeight="55.0" prefWidth="65.0" text="Back" />
+      <Button fx:id="distanceButton" layoutX="25.0" layoutY="42.0" mnemonicParsing="false" onAction="#shorterDistancePressed" prefHeight="80.0" prefWidth="150.0" text="Shorter Distance" />
+      <Button fx:id="priceButton" layoutX="25.0" layoutY="160.0" mnemonicParsing="false" onAction="#higherPricePressed" prefHeight="80.0" prefWidth="150.0" text="Reduce Efficiency of Towers" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="noChangesButton" layoutX="25.0" layoutY="279.0" mnemonicParsing="false" onAction="#noChangesPressed" prefHeight="80.0" prefWidth="150.0" text="No Changes" />
+      <Button fx:id="startButton" layoutX="521.0" layoutY="331.0" mnemonicParsing="false" onAction="#startPressed" prefHeight="55.0" prefWidth="65.0" text="Start" />
+      <Label layoutX="284.0" layoutY="42.0" text="Carts next round:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="cartInfoTo4" alignment="TOP_LEFT" layoutX="183.0" layoutY="72.0" prefHeight="309.0" prefWidth="165.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="cartInfoTo10" alignment="TOP_LEFT" layoutX="356.0" layoutY="72.0" prefHeight="309.0" prefWidth="165.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="277.0" layoutY="359.0" text="Track Distance: 150m" />
+   </children>
+</AnchorPane>

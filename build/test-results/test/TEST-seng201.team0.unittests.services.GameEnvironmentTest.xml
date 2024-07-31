@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="seng201.team0.unittests.services.GameEnvironmentTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-07-31T06:40:24" hostname="Isaacs-MacBook-Air-7.local" time="0.081">
+  <properties/>
+  <testcase name="testTowerBreakCalculator()" classname="seng201.team0.unittests.services.GameEnvironmentTest" time="0.023"/>
+  <testcase name="testUpgradeTowers()" classname="seng201.team0.unittests.services.GameEnvironmentTest" time="0.009"/>
+  <testcase name="testUpdatePooledResourcesPerSecond()" classname="seng201.team0.unittests.services.GameEnvironmentTest" time="0.002"/>
+  <testcase name="testResetLabelSaves()" classname="seng201.team0.unittests.services.GameEnvironmentTest" time="0.004"/>
+  <testcase name="testRandomTowerLevelUp()" classname="seng201.team0.unittests.services.GameEnvironmentTest" time="0.014"/>
+  <testcase name="testResetCountOfEachTypeOfCount()" classname="seng201.team0.unittests.services.GameEnvironmentTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameEnvironment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0</a> &gt; <span class="el_source">GameEnvironment.java</span></div><h1>GameEnvironment.java</h1><pre class="source lang-java linenums">package seng201.team0;
+
+import seng201.team0.models.Cart;
+import seng201.team0.models.Purchasable;
+import seng201.team0.models.Round;
+import seng201.team0.models.Tower;
+import seng201.team0.services.CartService;
+import seng201.team0.services.RoundService;
+import seng201.team0.services.TowerService;
+import seng201.team0.services.UpgradeService;
+
+import java.util.List;
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/**
+ * This game environment class contains all the back round logic and information of the game being played.
+ */
+public class GameEnvironment {
+
+    private final Consumer&lt;GameEnvironment&gt; setupScreenLauncher;
+    private final Consumer&lt;GameEnvironment&gt; mainScreenLauncher;
+    private final Consumer&lt;GameEnvironment&gt; shopScreenLauncher;
+    private final Consumer&lt;GameEnvironment&gt; inventoryScreenLauncher;
+    private final Consumer&lt;GameEnvironment&gt; selectionScreenLauncher;
+    private final Runnable clearScreen;
+<span class="fc" id="L29">    private int currentRound = 0;</span>
+<span class="fc" id="L30">    private int coins = 30;</span>
+<span class="fc" id="L31">    private int numOfRounds = 5;</span>
+    private int points;
+<span class="fc" id="L33">    private ArrayList&lt;Double&gt; pooledResourcesPerSecond = new ArrayList&lt;Double&gt;(Arrays.asList(0.0,0.0,0.0));</span>
+<span class="fc" id="L34">    private ArrayList&lt;Integer&gt; countOfEachTypeCart = new ArrayList&lt;Integer&gt;(Arrays.asList(0,0,0));</span>
+<span class="fc" id="L35">    private ArrayList&lt;String&gt; cartTimeLabelSaves = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L36">    private ArrayList&lt;String&gt; cartFillLabelSaves = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L37">    private String playerName = null;</span>
+<span class="fc" id="L38">    private boolean hardMode = false;</span>
+<span class="fc" id="L39">    private boolean startingShop = false;</span>
+<span class="fc" id="L40">    private boolean shopToInventory = false;</span>
+<span class="fc" id="L41">    private boolean mainToInventory = false;</span>
+<span class="fc" id="L42">    private boolean selectionShorterDistance = false;</span>
+<span class="fc" id="L43">    private boolean selectionHigherPrice = false;</span>
+<span class="fc" id="L44">    private boolean mainScreenFromSelection = false;</span>
+    private boolean setupDifficultySelected;
+    private boolean setupNameSelected;
+<span class="fc" id="L47">    private CartService easyBloodCartService = new CartService(100, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Blood&quot;)), 5);</span>
+<span class="fc" id="L48">    private CartService easySweatCartService = new CartService(100, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Sweat&quot;)), 5);</span>
+<span class="fc" id="L49">    private CartService easyTearsCartService = new CartService(100, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Tears&quot;)), 5);</span>
+<span class="fc" id="L50">    private CartService easyNoBloodCartService = new CartService(100, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Tears&quot;, &quot;Sweat&quot;)), 10);</span>
+<span class="fc" id="L51">    private CartService easyNoSweatCartService = new CartService(100, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Tears&quot;, &quot;Blood&quot;)), 10);</span>
+<span class="fc" id="L52">    private CartService easyNoTearsCartService = new CartService(100, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Blood&quot;, &quot;Sweat&quot;)), 10);</span>
+<span class="fc" id="L53">    private CartService hardBloodCartService = new CartService(200, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Blood&quot;)), 5);</span>
+<span class="fc" id="L54">    private CartService hardSweatCartService = new CartService(200, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Sweat&quot;)), 5);</span>
+<span class="fc" id="L55">    private CartService hardTearsCartService = new CartService(200, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Tears&quot;)), 5);</span>
+<span class="fc" id="L56">    private CartService hardNoBloodCartService = new CartService(200, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Tears&quot;, &quot;Sweat&quot;)), 10);</span>
+<span class="fc" id="L57">    private CartService hardNoSweatCartService = new CartService(200, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Tears&quot;, &quot;Blood&quot;)), 10);</span>
+<span class="fc" id="L58">    private CartService hardNoTearsCartService = new CartService(200, new ArrayList&lt;String&gt;(Arrays.asList(&quot;Blood&quot;, &quot;Sweat&quot;)), 10);</span>
+<span class="fc" id="L59">    private CartService bossCartService = new CartService(2000, new ArrayList&lt;&gt;(Arrays.asList(&quot;Tears&quot;, &quot;Blood&quot;, &quot;Sweat&quot;)), 1);</span>
+<span class="fc" id="L60">    private RoundService round1 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(easyBloodCartService.makeClone())));</span>
+<span class="fc" id="L61">    private RoundService round2 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(easyBloodCartService.makeClone(), easyTearsCartService.makeClone())));</span>
+<span class="fc" id="L62">    private RoundService round3 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(easyBloodCartService.makeClone(), easyNoBloodCartService.makeClone())));</span>
+<span class="fc" id="L63">    private RoundService round4 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(easyTearsCartService.makeClone(), easyNoSweatCartService.makeClone())));</span>
+<span class="fc" id="L64">    private RoundService round5 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(easyTearsCartService.makeClone(), easyBloodCartService.makeClone())));</span>
+<span class="fc" id="L65">    private RoundService round6 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardBloodCartService.makeClone(), easyNoBloodCartService.makeClone())));</span>
+<span class="fc" id="L66">    private RoundService round7 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(easyNoBloodCartService.makeClone(), hardBloodCartService.makeClone(), easyTearsCartService.makeClone())));</span>
+<span class="fc" id="L67">    private RoundService round8 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardBloodCartService.makeClone(), hardTearsCartService.makeClone(), hardSweatCartService.makeClone())));</span>
+<span class="fc" id="L68">    private RoundService round9 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardNoBloodCartService.makeClone(), hardBloodCartService.makeClone(), hardTearsCartService.makeClone())));</span>
+<span class="fc" id="L69">    private RoundService round10 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardNoBloodCartService.makeClone(), hardNoSweatCartService.makeClone())));</span>
+<span class="fc" id="L70">    private RoundService round11 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardNoBloodCartService.makeClone(), hardNoTearsCartService.makeClone(), hardSweatCartService.makeClone())));</span>
+<span class="fc" id="L71">    private RoundService round12 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardNoTearsCartService.makeClone(), hardNoBloodCartService.makeClone(), hardNoSweatCartService.makeClone())));</span>
+<span class="fc" id="L72">    private RoundService round13 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardNoBloodCartService.makeClone(), hardNoBloodCartService.makeClone(), hardSweatCartService.makeClone(), easySweatCartService.makeClone())));</span>
+<span class="fc" id="L73">    private RoundService round14 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(hardSweatCartService.makeClone(), hardBloodCartService.makeClone(), hardTearsCartService.makeClone(), hardNoBloodCartService.makeClone(), hardNoTearsCartService.makeClone(), hardNoSweatCartService.makeClone())));</span>
+<span class="fc" id="L74">    private RoundService round15 = new RoundService(new ArrayList&lt;&gt;(Arrays.asList(bossCartService.makeClone())));</span>
+<span class="fc" id="L75">    private ArrayList&lt;RoundService&gt; rounds = new ArrayList&lt;&gt;(Arrays.asList(round1, round2, round3, round4, round5, round6, round7, round8, round9, round10, round11, round12, round13, round14, round15));</span>
+<span class="fc" id="L76">    private ArrayList&lt;Purchasable&lt;TowerService&gt;&gt; towerInventory = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L77">    private ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; speedUpgrades = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L78">    private ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; loadSizeUpgrades = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L79">    private ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; lifeUpgrades = new ArrayList&lt;&gt;();</span>
+
+    /** The constructor for a game environment
+     *
+     * @param setupScreenLauncher the setup screen launcher
+     * @param mainScreenLauncher  the main screen launcher
+     * @param shopScreenLauncher the shop screen launcher
+     * @param inventoryScreenLauncher the inventory screen launcher
+     * @param selectionScreenLauncher the selection screen launcher
+     * @param clearScreen clears the screen
+     */
+<span class="fc" id="L90">    public GameEnvironment(Consumer&lt;GameEnvironment&gt; setupScreenLauncher, Consumer&lt;GameEnvironment&gt; mainScreenLauncher, Consumer&lt;GameEnvironment&gt; shopScreenLauncher, Consumer&lt;GameEnvironment&gt; inventoryScreenLauncher, Consumer&lt;GameEnvironment&gt; selectionScreenLauncher,  Runnable clearScreen){</span>
+
+<span class="fc" id="L92">        this.mainScreenLauncher = mainScreenLauncher;</span>
+<span class="fc" id="L93">        this.setupScreenLauncher = setupScreenLauncher;</span>
+<span class="fc" id="L94">        this.shopScreenLauncher = shopScreenLauncher;</span>
+<span class="fc" id="L95">        this.inventoryScreenLauncher = inventoryScreenLauncher;</span>
+<span class="fc" id="L96">        this.selectionScreenLauncher = selectionScreenLauncher;</span>
+<span class="fc" id="L97">        this.clearScreen = clearScreen;</span>
+<span class="fc" id="L98">        launchSetupScreen();</span>
+
+<span class="fc" id="L100">    }</span>
+
+    /**
+     * Launcher for setup screen.
+     */
+    public void launchSetupScreen(){
+
+<span class="fc" id="L107">        setupScreenLauncher.accept(this);</span>
+
+<span class="fc" id="L109">    }</span>
+
+    /**
+     * Launcher for main screen.
+     */
+    public void launchMainScreen(){
+
+<span class="nc" id="L116">        mainScreenLauncher.accept(this);</span>
+
+<span class="nc" id="L118">    }</span>
+
+    /**
+     * Launcher for shop screen.
+     */
+    public void launchShopScreen(){
+
+<span class="nc" id="L125">        shopScreenLauncher.accept(this);</span>
+
+<span class="nc" id="L127">    }</span>
+
+    /**
+     * Launcher for inventory screen.
+     */
+    public void launchInventoryScreen(){
+
+<span class="nc" id="L134">        inventoryScreenLauncher.accept(this);</span>
+
+<span class="nc" id="L136">    }</span>
+
+    /**
+     * Launcher for selection screen.
+     */
+    public void launchSelectionScreen(){
+
+<span class="nc" id="L143">        selectionScreenLauncher.accept(this);</span>
+
+<span class="nc" id="L145">    }</span>
+
+    /**
+     * Closes setup screen.
+     */
+    public void closeSetupScreen(){
+
+<span class="nc" id="L152">        clearScreen.run();</span>
+
+<span class="nc" id="L154">    }</span>
+
+    /**
+     * Closes main screen.
+     */
+    public void closeMainScreen(){
+
+<span class="nc" id="L161">        clearScreen.run();</span>
+
+<span class="nc" id="L163">    }</span>
+
+    /**
+     * Closes shop screen.
+     */
+    public void closeShopScreen(){
+
+<span class="nc" id="L170">        clearScreen.run();</span>
+
+<span class="nc" id="L172">    }</span>
+
+    /**
+     * Closes inventory screen.
+     */
+    public void closeInventoryScreen(){
+
+<span class="nc" id="L179">        clearScreen.run();</span>
+
+<span class="nc" id="L181">    }</span>
+
+    /**
+     * Closes selection screen.
+     */
+    public void closeSelectionScreen(){
+
+<span class="nc" id="L188">        clearScreen.run();</span>
+
+<span class="nc" id="L190">    }</span>
+
+
+    /**
+     * The getter method for player name.
+     * @return the players name.
+     */
+    public String getPlayerName(){
+
+<span class="nc" id="L199">        return playerName;</span>
+
+    }
+
+    /**
+     * The setter method for player name.
+     * @param s the String the user has entered.
+     */
+    public void setPlayerName(String s){
+
+<span class="nc" id="L209">        playerName = s;</span>
+
+<span class="nc" id="L211">    }</span>
+
+    /**
+     * The getter method for hard mode.
+     * @return hardMode boolean depending on user input.
+     */
+    public boolean getHardMode(){
+
+<span class="nc" id="L219">        return hardMode;</span>
+
+    }
+
+    /**
+     * The setter method for hard mode.
+     * @param b boolean depending on user input.
+     */
+    public void setHardMode(boolean b){
+
+<span class="nc" id="L229">        hardMode = b;</span>
+
+<span class="nc" id="L231">    }</span>
+
+    /**
+     * The setter method to determine whether the user is in the starting shop.
+     * @param b depending on current state of app.
+     */
+    public void setStartingShop(boolean b){
+
+<span class="nc" id="L239">        startingShop = b;</span>
+
+<span class="nc" id="L241">    }</span>
+
+    /**
+     * The getter method for the starting shop boolean.
+     * @return startingShop boolean.
+     */
+    public boolean getStartingShop(){
+
+<span class="nc" id="L249">        return startingShop;</span>
+
+    }
+
+    /**
+     * The setter method for shopToInventory.
+     * @param b the new boolean for shopToInventory.
+     */
+    public void setShopToInventory(boolean b){
+
+<span class="nc" id="L259">        shopToInventory = b;</span>
+
+<span class="nc" id="L261">    }</span>
+
+    /**
+     * The getter method for shopToInventory.
+     * @return boolean of if player moved from shopToInventory.
+     */
+    public boolean getShopToInventory(){
+
+<span class="nc" id="L269">        return shopToInventory;</span>
+
+    }
+
+    /**
+     * The setter method for mainToInventory.
+     * @param b the new boolean for mainToInventory.
+     */
+    public void setMainToInventory(boolean b){
+
+<span class="nc" id="L279">        mainToInventory = b;</span>
+
+<span class="nc" id="L281">    }</span>
+
+    /**
+     * The getter method for mainToInventory.
+     * @return boolean of if player moved from mainToInventory.
+     */
+    public boolean getMainToInventory(){
+
+<span class="nc" id="L289">        return mainToInventory;</span>
+
+    }
+
+    /**
+     * The getter method for cart time label saves.
+     * @return the cart time labels from round played last.
+     */
+    public ArrayList&lt;String&gt; getCartTimeLabelSaves(){
+
+<span class="fc" id="L299">        return cartTimeLabelSaves;</span>
+
+    }
+
+    /**
+     * The getter method for cart fill label saves.
+     * @return the cart fill labels from round played last.
+     */
+    public ArrayList&lt;String&gt; getCartFillLabelSaves(){
+
+<span class="fc" id="L309">        return cartFillLabelSaves;</span>
+
+    }
+
+    /**
+     * This method resets the cart label saves to 0.
+     */
+    public void resetCartLabelSaves(){
+
+<span class="fc" id="L318">        cartTimeLabelSaves = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L319">        cartFillLabelSaves = new ArrayList&lt;String&gt;();</span>
+
+<span class="fc" id="L321">    }</span>
+
+    /**
+     * The getter method for tower inventory.
+     * @return the tower inventory.
+     */
+    public ArrayList&lt;Purchasable&lt;TowerService&gt;&gt; getTowerInventory(){
+
+<span class="fc" id="L329">        return towerInventory;</span>
+
+    }
+
+    /**
+     * The getter method for speed upgrade inventory.
+     * @return the speed upgrade inventory.
+     */
+    public ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; getSpeedUpgrades(){
+
+<span class="fc" id="L339">        return speedUpgrades;</span>
+
+    }
+
+    /**
+     * The getter method for load size upgrade inventory.
+     * @return the load size upgrade inventory.
+     */
+    public ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; getLoadSizeUpgrades(){
+
+<span class="fc" id="L349">        return loadSizeUpgrades;</span>
+
+    }
+
+    /**
+     * The getter method for life upgrade inventory.
+     * @return the life upgrade inventory.
+     */
+    public ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; getLifeUpgrades(){
+
+<span class="fc" id="L359">        return lifeUpgrades;</span>
+
+    }
+
+    /**
+     * The getter method for current round.
+     * @return the current round.
+     */
+    public int getCurrentRound(){
+
+<span class="nc" id="L369">        return currentRound;</span>
+
+    }
+
+    /**
+     * The getter method for rounds.
+     * @return the rounds arraylist.
+     */
+    public ArrayList&lt;RoundService&gt; getRounds(){
+
+<span class="nc" id="L379">        return rounds;</span>
+
+    }
+
+    /**
+     * This method iterates through the towers in your active towers and calculates if a tower broke.
+     * @return -1 if tower didn't break, otherwise returns index of the tower breaking.
+     */
+    public int towerBreakCalculator(){
+
+<span class="pc bpc" id="L389" title="1 of 4 branches missed.">        for (int i = 0 ; i &lt; 5 &amp;&amp; i &lt; towerInventory.size(); i++){</span>
+
+<span class="fc" id="L391">            TowerService tower = (TowerService) towerInventory.get(i);</span>
+<span class="fc" id="L392">            boolean towerBroke = tower.doesTowerBreak();</span>
+
+<span class="fc bfc" id="L394" title="All 2 branches covered.">            if(towerBroke){</span>
+
+<span class="fc" id="L396">                towerInventory.remove(i);</span>
+<span class="fc" id="L397">                return i;</span>
+
+            }
+
+        }
+
+<span class="fc" id="L403">        return -1;</span>
+
+    }
+
+    /**
+     * This method levels up every tower once.
+     */
+    public void levelUpTowers(){
+
+<span class="pc bpc" id="L412" title="1 of 4 branches missed.">        for (int i = 0; i&lt;5 &amp;&amp; i&lt;towerInventory.size(); i ++){</span>
+
+<span class="fc" id="L414">            TowerService tower = (TowerService) towerInventory.get(i);</span>
+<span class="fc" id="L415">            tower.levelUp();</span>
+
+        }
+
+<span class="fc" id="L419">    }</span>
+
+    /**
+     * This method has a 1/5 chance of leveling up one of the towers in the players main slots.
+     * @return the index of the tower that leveled up, or -1 if no tower leveled up.
+     */
+    public int randomTowerLevelUpCalculator(){
+
+<span class="fc" id="L427">        Random random = new Random();</span>
+
+<span class="fc" id="L429">        int index = random.nextInt(Math.min(3*towerInventory.size(), 15));</span>
+
+<span class="fc bfc" id="L431" title="All 2 branches covered.">        if (index &lt; towerInventory.size()) {</span>
+
+<span class="fc" id="L433">            TowerService tower = (TowerService) towerInventory.get(index);</span>
+<span class="fc" id="L434">            tower.levelUp();</span>
+<span class="fc" id="L435">            return index;</span>
+
+        }
+
+<span class="fc" id="L439">        return -1;</span>
+
+    }
+
+    /**
+     * The getter method for coins.
+     * @return coin amount.
+     */
+    public int getCoins(){
+
+<span class="fc" id="L449">        return coins;</span>
+
+    }
+
+    /**
+     * The setter method for coin amount.
+     * @param c is new coin amount.
+     */
+    public void setCoins(int c){
+
+<span class="fc" id="L459">        coins = c;</span>
+
+<span class="fc" id="L461">    }</span>
+
+    /**
+     * The getter method for num of rounds.
+     * @return the number of rounds.
+     */
+    public int getNumOfRounds(){
+
+<span class="nc" id="L469">        return numOfRounds;</span>
+
+    }
+
+    /**
+     * The setter method for number of rounds.
+     * @param newNumOfRounds the new number of rounds in the game.
+     */
+    public void setNumOfRounds(int newNumOfRounds){
+
+<span class="nc" id="L479">        numOfRounds = newNumOfRounds;</span>
+
+<span class="nc" id="L481">    }</span>
+
+    /**
+     * The getter method for selectionShorterDistance.
+     * @return boolean for difficulty.
+     */
+    public boolean getSelectionShorterDistance(){
+
+<span class="nc" id="L489">        return selectionShorterDistance;</span>
+
+    }
+
+    /**
+     * The getter method for selectionHigherPrice.
+     * @return boolean for difficulty.
+     */
+    public boolean getSelectionHigherPrice(){
+
+<span class="nc" id="L499">        return selectionHigherPrice;</span>
+
+    }
+
+    /**
+     * The setter method for selectionShorterDistance.
+     * @param b boolean from selection screen.
+     */
+    public void setSelectionShorterDistance(boolean b){
+
+<span class="nc" id="L509">        selectionShorterDistance = b;</span>
+
+<span class="nc" id="L511">    }</span>
+
+    /**
+     * The setter method for selectionHigherPrice.
+     * @param b boolean from selection screen.
+     */
+    public void setSelectionHigherPrice(boolean b){
+
+<span class="nc" id="L519">        selectionHigherPrice = b;</span>
+
+<span class="nc" id="L521">    }</span>
+
+    /**
+     * The getter method for whether the user got to the main screen from the selection screen.
+     * @return boolean from selection screen.
+     */
+    public boolean getMainScreenFromSelection(){
+
+<span class="nc" id="L529">        return mainScreenFromSelection;</span>
+
+    }
+
+    /**
+     * The setter method for mainScreenFromSelection.
+     * @param b the new boolean for mainScreenFromSelection.
+     */
+    public void setMainScreenFromSelection(boolean b){
+
+<span class="nc" id="L539">        mainScreenFromSelection = b;</span>
+
+<span class="nc" id="L541">    }</span>
+
+    /**
+     * The getter method for whether the user has selected a name in the setup screen.
+     * @return boolean setupNameSelected.
+     */
+    public boolean getSetupNameSelected(){
+
+<span class="nc" id="L549">        return setupNameSelected;</span>
+
+    }
+
+    /**
+     * The getter method for whether the user has selected a difficulty in the setup screen.
+     * @return boolean setupDifficultySelected.
+     */
+    public boolean getSetupDifficultySelected(){
+
+<span class="nc" id="L559">        return setupDifficultySelected;</span>
+
+    }
+
+    /**
+     * The setter method for whether the user has selected a name in the setup screen.
+     * @param b true if name has been selected.
+     */
+    public void setSetupNameSelected(boolean b){
+
+<span class="nc" id="L569">        setupNameSelected = b;</span>
+
+<span class="nc" id="L571">    }</span>
+
+    /**
+     * The setter method for whether the user has selected a difficulty in the setup screen.
+     * @param b true if difficulty has been selected.
+     */
+    public void setSetupDifficultySelected(boolean b){
+
+<span class="nc" id="L579">        setupDifficultySelected = b;</span>
+
+<span class="nc" id="L581">    }</span>
+
+    /**
+     * The getter for pooled recourses per second.
+     * @return pooledResourcesPerSecond.
+     */
+    public ArrayList&lt;Double&gt; getPooledResourcesPerSecond(){
+
+<span class="fc" id="L589">        return pooledResourcesPerSecond;</span>
+
+    }
+
+    /**
+     * This method recalculates how much of each resource the players towers and producing per second.
+     */
+    public void updatePooledResourcesPerSecond(){
+
+<span class="fc" id="L598">        pooledResourcesPerSecond = new ArrayList&lt;&gt;(Arrays.asList(0.0, 0.0, 0.0));</span>
+
+<span class="pc bpc" id="L600" title="1 of 4 branches missed.">        for(int i = 0; i &lt; towerInventory.size() &amp;&amp; i &lt; 5; i ++) {</span>
+
+<span class="fc" id="L602">            TowerService t = (TowerService) towerInventory.get(i);</span>
+
+<span class="fc bfc" id="L604" title="All 2 branches covered.">            if (t.getTypes().contains(&quot;Blood&quot;)) {</span>
+
+<span class="fc" id="L606">                pooledResourcesPerSecond.set(0, pooledResourcesPerSecond.get(0) + t.getLoadSize() / t.getLoadSpeed());</span>
+
+            }
+
+<span class="fc bfc" id="L610" title="All 2 branches covered.">            if (t.getTypes().contains(&quot;Sweat&quot;)) {</span>
+
+<span class="fc" id="L612">                pooledResourcesPerSecond.set(1, pooledResourcesPerSecond.get(1) + t.getLoadSize() / t.getLoadSpeed());</span>
+
+            }
+
+<span class="fc bfc" id="L616" title="All 2 branches covered.">            if (t.getTypes().contains(&quot;Tears&quot;)) {</span>
+
+<span class="fc" id="L618">                pooledResourcesPerSecond.set(2, pooledResourcesPerSecond.get(2) + t.getLoadSize() / t.getLoadSpeed());</span>
+
+            }
+
+        }
+
+<span class="fc" id="L624">    }</span>
+
+    /**
+     * The getter method for countOfEachTypeOfTower
+     * @return the counts of each type of tower in arraylist.
+     */
+    public ArrayList&lt;Integer&gt; getCountOfEachTypeCart(){
+
+<span class="fc" id="L632">        return countOfEachTypeCart;</span>
+
+    }
+
+    /**
+     * This method resets the counts for each type of tower the player has.
+     */
+    public void resetCountOfEachTypeOfCount(){
+
+<span class="fc" id="L641">        countOfEachTypeCart = new ArrayList&lt;Integer&gt;(Arrays.asList(0,0,0));</span>
+
+<span class="fc" id="L643">    }</span>
+
+    /**
+     * The setter method for current round.
+     * @param newRound the new round number.
+     */
+    public void setCurrentRound(int newRound){
+
+<span class="nc" id="L651">        this.currentRound = newRound;</span>
+
+<span class="nc" id="L653">    }</span>
+
+    /**
+     * The getter method for points.
+     * @return the amount of points a player has.
+     */
+    public int getPoints(){
+
+<span class="nc" id="L661">        return points;</span>
+
+    }
+
+    /**
+     * The setter method for points.
+     * @param newPoints the new number of points.
+     */
+    public void setPoint(int newPoints){
+
+<span class="nc" id="L671">        points = newPoints;</span>
+
+<span class="nc" id="L673">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CartService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.services</a> &gt; <span class="el_source">CartService.java</span></div><h1>CartService.java</h1><pre class="source lang-java linenums">package seng201.team0.services;
+
+import seng201.team0.models.Cart;
+
+import java.util.ArrayList;
+
+/**
+ * The service class for a cart. Used to interact with carts and has all methods used on carts.
+ */
+public class CartService {
+
+    private final Cart cart;
+
+    /**
+     * The Cart Service Constructor.
+     * @param size the size of the cart.
+     * @param types the types the cart can be filled up with.
+     * @param speed the speed of the cart.
+     */
+<span class="fc" id="L20">    public CartService(int size, ArrayList&lt;String&gt; types, int speed) {</span>
+
+<span class="fc" id="L22">        cart = new Cart(size, types, speed);</span>
+
+<span class="fc" id="L24">    }</span>
+
+    /**
+     * The getter method for size of the cart.
+     * @return the size of the cart.
+     */
+    public int getSize(){
+
+<span class="fc" id="L32">        return cart.getSize();</span>
+
+    }
+
+    /**
+     * The getter method for the types of the cart.
+     * @return the types of the cart.
+     */
+    public ArrayList&lt;String&gt; getTypes(){
+
+<span class="fc" id="L42">        return cart.getTypes();</span>
+
+    }
+
+    /**
+     * The getter method for the carts speed.
+     * @return the carts speed.
+     */
+    public int getSpeed(){
+
+<span class="fc" id="L52">        return cart.getSpeed();</span>
+
+    }
+
+    /**
+     * The setter method for the carts size.
+     * @param size the new size of the cart.
+     */
+    public void setSize(int size){
+
+<span class="fc" id="L62">        cart.setSize(size);</span>
+
+<span class="fc" id="L64">    }</span>
+
+    /**
+     * The setter method for the carts speed.
+     * @param speed the new speed of the cart.
+     */
+    public void setSpeed(int speed){
+
+<span class="fc" id="L72">        cart.setSpeed(speed);</span>
+
+<span class="fc" id="L74">    }</span>
+
+    /**
+     * The getter method for current fill.
+     * @return the current fill.
+     */
+    public int getCurrentFill(){
+
+<span class="fc" id="L82">        return this.cart.getCurrentFill();</span>
+
+    }
+
+    /**
+     * The setter for current fill of the cart.
+     * @param i the new current fill.
+     */
+    public void setCurrentFill(int i){
+
+<span class="fc" id="L92">        this.cart.setCurrentFill(i);</span>
+
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if(this.cart.getCurrentFill() &gt;= this.cart.getSize()){</span>
+
+<span class="fc" id="L96">            this.cart.setCurrentFill(this.cart.getSize());</span>
+<span class="fc" id="L97">            this.cart.setFilled(true);</span>
+
+        }
+
+<span class="fc" id="L101">    }</span>
+
+    /**
+     * The getter for time left.
+     * @return the carts time.
+     */
+    public int getTimeLeft(){
+
+<span class="fc" id="L109">        return this.cart.getTimeLeft();</span>
+
+    }
+
+    /**
+     * This method decreases the time left of a cart by 1, it doesn't let the time go below one either.
+     */
+    public void decreaseTimeLeft(){
+
+<span class="fc" id="L118">        this.cart.setTimeLeft(this.cart.getTimeLeft() - 1);</span>
+
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (this.cart.getTimeLeft() &lt;= 0) {</span>
+
+<span class="fc" id="L122">            cart.setTimeLeft(0);</span>
+<span class="fc" id="L123">            cart.setTimeRanOut(true);</span>
+
+        }
+
+<span class="fc" id="L127">    }</span>
+
+    /**
+     * The setter method for time left.
+     * @param i the new time.
+     */
+    public void setTimeLeft(int i){
+
+<span class="fc" id="L135">        this.cart.setTimeLeft(i);</span>
+
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        if (cart.getTimeLeft() &lt;= 0) {</span>
+
+<span class="fc" id="L139">            cart.setTimeLeft(0);</span>
+<span class="fc" id="L140">            cart.setTimeRanOut(true);</span>
+
+        }
+
+<span class="fc" id="L144">    }</span>
+
+    /**
+     * This method creates another CartService with a cart of the exact same stats.
+     * @return a clone of itself.
+     */
+    public CartService makeClone(){
+
+<span class="fc" id="L152">        return new CartService(this.getSize(), this.getTypes(), this.getSpeed());</span>
+
+    }
+
+    /**
+     * The getter method for if the cart is filled.
+     * @return a boolean which is true if cart is filled.
+     */
+    public boolean getFilled(){
+
+<span class="fc" id="L162">        return cart.getFilled();</span>
+
+    }
+
+    /**
+     * The getter for if a cart ran out of time.
+     * @return a boolean that's true if the cart ran out of time.
+     */
+    public boolean getTimeRanOut(){
+
+<span class="fc" id="L172">        return cart.getTimeRanOut();</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

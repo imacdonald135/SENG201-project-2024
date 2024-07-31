@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpgradeService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.services</a> &gt; <span class="el_source">UpgradeService.java</span></div><h1>UpgradeService.java</h1><pre class="source lang-java linenums">package seng201.team0.services;
+
+import seng201.team0.GameEnvironment;
+import seng201.team0.models.Purchasable;
+import seng201.team0.models.Upgrade;
+
+import java.util.ArrayList;
+
+/**
+ * The upgrade service class used to interact with upgrades. Contains all methods on upgrades.
+ */
+public class UpgradeService implements Purchasable&lt;UpgradeService&gt;{
+
+    private Upgrade upgrade;
+
+    /**
+     * The constructor for a load size or speed upgrade service.
+     * @param uType either &quot;LoadSize&quot; or &quot;Speed&quot;.
+     * @param multiplier the multiplier amount.
+     * @param price the price.
+     */
+<span class="fc" id="L22">    public UpgradeService(String uType, double multiplier, int price){</span>
+
+<span class="fc" id="L24">        upgrade = new Upgrade(uType, multiplier, price);</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * The upgrade service constructor when it's a life upgrade service.
+     * @param price the price.
+     */
+<span class="fc" id="L31">    public UpgradeService(int price){</span>
+
+<span class="fc" id="L33">        upgrade = new Upgrade(price);</span>
+
+<span class="fc" id="L35">    }</span>
+
+    /**
+     * The getter method for load size multiplier.
+     * @return the load size multiplier.
+     */
+    public double getLoadSizeMultiplier(){
+
+<span class="fc" id="L43">        return upgrade.getLoadSizeMultiplier();</span>
+
+    }
+
+    /**
+     * The getter method for speed multiplier.
+     * @return the speed multiplier.
+     */
+    public double getSpeedMultiplier(){
+
+<span class="fc" id="L53">        return upgrade.getSpeedMultiplier();</span>
+
+    }
+
+    /**
+     * The getter method for what type of upgrade it is.
+     * @return the type of the upgrade.
+     */
+    public String getUpgradeType(){
+
+<span class="fc" id="L63">        return upgrade.getUpgradeType();</span>
+
+    }
+
+    /**
+     * The getter method for price.
+     * @return the price.
+     */
+    public int getPrice() {
+
+<span class="fc" id="L73">        return upgrade.getPrice();</span>
+
+    }
+
+    /**
+     * The buy method for the upgrade service.
+     * @param e the game enviroment to access and change coins.
+     * @param inventory the inventory the upgrade service is added too.
+     */
+    public void buy(GameEnvironment e, ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; inventory){
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (e.getCoins() - this.getPrice() &gt;= 0) {</span>
+
+<span class="fc" id="L86">            inventory.add(this);</span>
+<span class="fc" id="L87">            e.setCoins(e.getCoins() - this.getPrice());</span>
+
+        }
+
+<span class="fc" id="L91">    }</span>
+
+    /**
+     * The sell method for an upgrade, removes it from its inventory and refunds the player some coins.
+     * @param e the game environment.
+     * @param inventory the inventory the upgrade was in.
+     * @param index the index the upgrade was at.
+     */
+    public void sell(GameEnvironment e, ArrayList&lt;Purchasable&lt;UpgradeService&gt;&gt; inventory, int index){
+
+<span class="fc bfc" id="L101" title="All 4 branches covered.">        if (index == 0 &amp;&amp; !e.getLoadSizeUpgrades().isEmpty()) {</span>
+
+<span class="fc" id="L103">            UpgradeService temp = (UpgradeService) e.getLoadSizeUpgrades().get(0);</span>
+<span class="fc" id="L104">            e.getLoadSizeUpgrades().remove(0);</span>
+<span class="fc" id="L105">            e.setCoins((int) (e.getCoins() + (0.5 * temp.getPrice())));</span>
+
+<span class="fc bfc" id="L107" title="All 4 branches covered.">        } else if (index == 1 &amp;&amp; !e.getSpeedUpgrades().isEmpty()) {</span>
+
+<span class="fc" id="L109">            UpgradeService temp = (UpgradeService) e.getSpeedUpgrades().get(0);</span>
+<span class="fc" id="L110">            e.getSpeedUpgrades().remove(0);</span>
+<span class="fc" id="L111">            e.setCoins((int) (e.getCoins() + (0.5 * temp.getPrice())));</span>
+
+<span class="fc bfc" id="L113" title="All 4 branches covered.">        } else if (index == 2 &amp;&amp; !e.getLifeUpgrades().isEmpty()) {</span>
+
+<span class="fc" id="L115">            UpgradeService temp = (UpgradeService) e.getLifeUpgrades().get(0);</span>
+<span class="fc" id="L116">            e.getLifeUpgrades().remove(0);</span>
+<span class="fc" id="L117">            e.setCoins((int) (e.getCoins() + (0.5 * temp.getPrice())));</span>
+
+        }
+
+<span class="fc" id="L121">    }</span>
+
+    /**
+     * This method creates a clone of an Upgrade Service, used to add upgrades to your inventory.
+     * @return a clone of itself
+     */
+    public UpgradeService makeClone(){
+
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (upgrade.getUpgradeType().equals(&quot;Life&quot;)){</span>
+
+<span class="fc" id="L131">            return new UpgradeService(this.getPrice());</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        } else if (upgrade.getUpgradeType().equals(&quot;Speed&quot;)) {</span>
+
+<span class="fc" id="L135">            return new UpgradeService(this.getUpgradeType(), this.getSpeedMultiplier(), this.getPrice());</span>
+
+        } else {
+
+<span class="fc" id="L139">            return new UpgradeService(this.getUpgradeType(), this.getLoadSizeMultiplier(), this.getPrice());</span>
+
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

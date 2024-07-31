@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cart.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seng201-team0-project</a> &gt; <a href="index.source.html" class="el_package">seng201.team0.models</a> &gt; <span class="el_source">Cart.java</span></div><h1>Cart.java</h1><pre class="source lang-java linenums">package seng201.team0.models;
+
+import java.util.ArrayList;
+
+/**
+ * The basic cart class.
+ * Contains getters and setters.
+ */
+public class Cart {
+
+    ArrayList&lt;String&gt; types;
+    int size;
+    int speed;
+<span class="fc" id="L14">    int currentFill = 0;</span>
+    int timeLeft;
+<span class="fc" id="L16">    boolean filled = false;</span>
+<span class="fc" id="L17">    boolean timeRanOut = false;</span>
+
+    /**
+     * The constructor for a cart.
+     * @param s the size of this cart.
+     * @param type the types that can fill the cart up.
+     * @param aSpeed the speed of the cart.
+     */
+<span class="fc" id="L25">    public Cart(int s, ArrayList&lt;String&gt; type, int aSpeed){</span>
+
+<span class="fc" id="L27">        this.types = type;</span>
+<span class="fc" id="L28">        this.size = s;</span>
+<span class="fc" id="L29">        this.speed = aSpeed;</span>
+<span class="fc" id="L30">        this.timeLeft = (int)150/aSpeed;</span>
+
+
+<span class="fc" id="L33">    }</span>
+
+    /**
+     * The getter method for carts time left.
+     * @return the time left.
+     */
+    public int getTimeLeft(){
+
+<span class="fc" id="L41">        return this.timeLeft;</span>
+
+    }
+
+    /**
+     * The setter for carts time left.
+     * @param newTime the new time left.
+     */
+    public void setTimeLeft(int newTime){
+
+<span class="fc" id="L51">        this.timeLeft = newTime;</span>
+
+<span class="fc" id="L53">    }</span>
+
+    /**
+     * The setter method for size.
+     * @param newSize the new size.
+     */
+    public void setSize(int newSize){
+
+<span class="fc" id="L61">        this.size = newSize;</span>
+
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * The getter method for size.
+     * @return the carts size.
+     */
+    public int getSize() {
+
+<span class="fc" id="L71">        return size;</span>
+
+    }
+
+    /**
+     * The getter method for types.
+     * @return the types of this cart.
+     */
+    public ArrayList&lt;String&gt; getTypes() {
+
+<span class="fc" id="L81">        return types;</span>
+
+    }
+
+    /**
+     * The setter method for speed.
+     * @param newSpeed the new speed.
+     */
+    public void setSpeed(int newSpeed){
+
+<span class="fc" id="L91">        this.speed= newSpeed;</span>
+
+<span class="fc" id="L93">    }</span>
+
+    /**
+     * The getter method for speed.
+     * @return the carts speed.
+     */
+    public int getSpeed() {
+
+<span class="fc" id="L101">        return this.speed;</span>
+
+    }
+
+    /**
+     * The setter method for currentFill.
+     * @param newFill the new currentFill.
+     */
+    public void setCurrentFill(int newFill){
+
+<span class="fc" id="L111">        this.currentFill= newFill;</span>
+
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * The getter method for currentFill.
+     * @return the carts currentFill.
+     */
+    public int getCurrentFill() {
+
+<span class="fc" id="L121">        return this.currentFill;</span>
+
+    }
+
+    /**
+     * The getter for filled boolean.
+     * @return true if cart is filled.
+     */
+    public boolean getFilled(){
+
+<span class="fc" id="L131">        return filled;</span>
+
+    }
+
+    /**
+     * The getter for timeRanOut boolean.
+     * @return true if cart ran out of time.
+     */
+    public boolean getTimeRanOut(){
+
+<span class="fc" id="L141">        return timeRanOut;</span>
+
+    }
+
+    /**
+     * The setter for if the cart is filled.
+     * @param b true if cart is filled.
+     */
+    public void setFilled(boolean b){
+
+<span class="fc" id="L151">        filled = b;</span>
+
+<span class="fc" id="L153">    }</span>
+
+    /**
+     * The setter for if the cart is filled.
+     * @param b true if cart is filled.
+     */
+    public void setTimeRanOut(boolean b){
+
+<span class="fc" id="L161">        timeRanOut = b;</span>
+
+<span class="fc" id="L163">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
